@@ -22,6 +22,7 @@
 
 body{padding:0px; margin:0px; font-family:"Catamaran-Light";}
 h1,h2,h3,h4,h5,h6{ font-family:"Santral-Bold"; }
+h1{font-size: 2rem;}
 
 [class*=sidebar-dark] .brand-link{color: rgba(255,255,255,.8); border-bottom: 1px solid #4b545c;}
 .brand-link{display: block;font-size: 1.25rem;line-height: 1.5;padding: 0.8125rem 0.5rem;transition: width .3s ease-in-out;white-space: nowrap;}
@@ -29,6 +30,9 @@ h1,h2,h3,h4,h5,h6{ font-family:"Santral-Bold"; }
 .sidebar-dark .sidebar a{color: #c2c7d0;}
 .layout-fixed .wrapper .sidebar{height: calc(100vh - (3.5rem + 1px));}
 .content-wrapper{ background-color: #f4f6f9;}
+.box-shadow-none { box-shadow: none ! important;}
+li.nav-item.active {background: #0d6efd ! important;}
+li.nav-item.active a{color:#fff ! important;}
 @media (min-width: 768px){
     .navbar-white{background-color: #fff;color: #1f2d3d;}
     .main-header{border-bottom: 1px solid #dee2e6;z-index: 1034;}
