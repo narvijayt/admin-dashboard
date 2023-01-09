@@ -33,14 +33,13 @@ class TranslationController extends Controller
         $selfAssessmentSurveys =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(['editionId' => $editionId, "query_string" => ["limit" => 1, "sort" => ["version" => "DESC"]] ]);
         if(isset($selfAssessmentSurveys['data']) && !empty($selfAssessmentSurveys['data'])){
             foreach($selfAssessmentSurveys['data'] as $selfSurvey){
-                if(empty($selfSurvey['publishedAt'])){
+                if(empty($selfSurvey['versionLocked'])){
                     $data['selfAssessmentSurvey'] =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(["id" => $selfSurvey['id'] ]);
                     break;
                 }              
             }
 
             if(!isset($data['selfAssessmentSurvey']) || empty($data['selfAssessmentSurvey'])){
-                die("not Set");
                 $newSelfAssessmentSurvey =  $this->SelfAssessmentSurveys->_createSelfAssessmentSurveys(["parentSurveyId" => $selfSurvey['id'] ]);
                 if(isset($newSelfAssessmentSurvey['id'])){
                     $data['selfAssessmentSurvey'] =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(["id" => $newSelfAssessmentSurvey['id'] ]);
@@ -50,8 +49,17 @@ class TranslationController extends Controller
         $needsAssessmentSurveys =  $this->NeedsAssessmentSurveys->_getNeedsAssessmentSurveys(['editionId' => $editionId]);
         if(isset($needsAssessmentSurveys['data']) && !empty($needsAssessmentSurveys['data'])){
             foreach($needsAssessmentSurveys['data'] as $needsSurvey){
-                $data['needsAssessmentSurvey'] =  $this->NeedsAssessmentSurveys->_getNeedsAssessmentSurveys(["id" => $needsSurvey['id'] ]);
-                break;
+                if(empty($needsSurvey['versionLocked'])){
+                    $data['needsAssessmentSurvey'] =  $this->NeedsAssessmentSurveys->_getNeedsAssessmentSurveys(["id" => $needsSurvey['id'] ]);
+                    break;
+                }
+            }
+
+            if(!isset($data['needsAssessmentSurvey']) || empty($data['needsAssessmentSurvey'])){
+                $newNeedsAssessmentSurvey =  $this->NeedsAssessmentSurveys->_createNeedsAssessmentSurveys(["parentSurveyId" => $needsSurvey['id'] ]);
+                if(isset($newNeedsAssessmentSurvey['id'])){
+                    $data['NeedsAssessmentSurvey'] =  $this->NeedsAssessmentSurveys->_getNeedsAssessmentSurveys(["id" => $newNeedsAssessmentSurvey['id'] ]);
+                }
             }
         }
 
@@ -69,25 +77,36 @@ class TranslationController extends Controller
      */
     protected function store(Request $request, $editionId, $lang){
         
+        /*$validateInputArray = ['selfQuestionChoices' => 'required'];
+        if($request->input("needsChoiceTitle")){
+            $validateInputArray = ['needsChoiceTitle.*' => 'required'];
+        }
+
+        $validated = $request->validate($validateInputArray);*/
+        
         // Update Needs Assessment Choices Translations
         $languages = se_languages();
-        if($request->input('needsChoicesId')){
-            foreach($request->input('needsChoicesId') as $choiceIndex=>$choiceId){
-                $choiceArray = [
-                    'id'    =>  $choiceId, 
-                    'translations'  =>  json_decode($request->input('needsTranslations')[$choiceIndex])
-                ];
+        // pr($request->all()); die;
 
-                $choiceArray['translations']    =  [ 
-                    $lang => [
-                        "title" => $request->input('needsChoiceTitle')[$choiceIndex],
-                        // "description" => $request->input('needsTranslations')[$choiceIndex],
-                    ],
-                ];
-                // pr($choiceArray); die;
-                $response = (new NeedsAssessmentChoices())->_updateNeedsAssessmentChoice($choiceArray);
-                if(isset($response['message'])){
-                    return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
+        if($request->input('needsChoicesId')){            
+            foreach($request->input('needsChoicesId') as $choiceIndex=>$choiceId){
+                if(!empty($request->input('needsChoiceTitle')[$choiceIndex])){
+                    $choiceArray = [
+                        'id'    =>  $choiceId, 
+                        'translations'  =>  json_decode($request->input('needsTranslations')[$choiceIndex])
+                    ];
+
+                    $choiceArray['translations']    =  [ 
+                        $lang => [
+                            "title" => $request->input('needsChoiceTitle')[$choiceIndex],
+                            // "description" => $request->input('needsTranslations')[$choiceIndex],
+                        ],
+                    ];
+                    // pr($choiceArray); die;
+                    $response = (new NeedsAssessmentChoices())->_updateNeedsAssessmentChoice($choiceArray);
+                    if(isset($response['message'])){
+                        return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
+                    }
                 }
             }
             return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Translations to ".$languages[$lang]. " has been updated successfully.");
@@ -96,27 +115,26 @@ class TranslationController extends Controller
         // pr($request->input('selfQuestionChoices')); die;
         // Update Self Assessment Choices Translations
         if($request->input('selfQuestionChoices')){
-            // return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', "Something went wrong. Please try again later.");
-
             foreach($request->input('selfQuestionChoices') as $questionId => $choiceDetails){
                 foreach($choiceDetails['choice_id'] as $choiceIndex=>$choiceId){
-                    
-                    $choiceArray = [
-                        'id'    =>  $choiceId, 
-                        'translations'  =>  json_decode($choiceDetails['translations'][$choiceIndex])
-                    ];
+                    if(!empty($choiceDetails['choiceTitle'][$choiceIndex]) || !empty($choiceDetails['choiceDescription'][$choiceIndex])){
+                        $choiceArray = [
+                            'id'    =>  $choiceId, 
+                            'translations'  =>  json_decode($choiceDetails['translations'][$choiceIndex])
+                        ];
 
-                    $choiceArray['translations']    =  [ 
-                        $lang => [
-                            "title" => $choiceDetails['choiceTitle'][$choiceIndex],
-                            "description" => $choiceDetails['choiceDescription'][$choiceIndex],
-                        ],
-                    ];
-                    
-                    $response = (new SelfAssessmentChoices())->_updateSelfAssessmentChoice($choiceArray);
-                    // pr($response); die;
-                    if(isset($response['message'])){
-                        return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
+                        $choiceArray['translations']    =  [ 
+                            $lang => [
+                                "title" => $choiceDetails['choiceTitle'][$choiceIndex],
+                                "description" => $choiceDetails['choiceDescription'][$choiceIndex],
+                            ],
+                        ];
+                        
+                        $response = (new SelfAssessmentChoices())->_updateSelfAssessmentChoice($choiceArray);
+                        // pr($response); die;
+                        if(isset($response['message'])){
+                            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
+                        }
                     }
                 }
             }

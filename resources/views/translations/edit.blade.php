@@ -51,7 +51,8 @@
 
                             @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
                                 <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                    <button type="submit" name="save-form" class="btn btn-success">Save</button>
+                                    <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
+                                    <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
                                     @csrf
                                     <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
                                         @php $questionsIndex = 1; @endphp
@@ -98,7 +99,7 @@
                                                                     <div class="col-md-9">
                                                                         <input type="text" class="form-control" name="selfQuestionChoices[{{$question['id']}}][choiceDescription][]" value="{{ (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']]) ) ? $questionsOldDetails[$question['id']]['choiceDescription'][$selfChoiceIndex] : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang])) ? $selfChoicesTranslations[$lang]['description'] : '') }}" />
                                                                     </div>
-                                                                    <input type="hidden" class="form-control" name="selfQuestionChoices[{{$question['id']}}][translations][]" value="{{ json_encode($selfChoicesTranslations) }}" />
+                                                                    <input type="hidden" name="selfQuestionChoices[{{$question['id']}}][translations][]" value="{{ json_encode($selfChoicesTranslations) }}" />
                                                                 </div>
                                                             @endforeach
 
@@ -110,13 +111,15 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
+                                    <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
+                                    <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
                                 </form>
                                 {{-- Display Needs Assessment Transaltions Section --}}
 
                                 @if(isset($needsAssessmentSurvey['choices']))
-                                    <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                        <button type="submit" name="save-form" class="btn btn-success">Save</button>
+                                    <form id="needs-assesment-choices" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+                                        <button type="submit" name="save-draft-needs-choices" class="btn btn-success">Save Draft</button>
+                                        <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
                                         @csrf
                                         <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
                                             <div class="accordion-item">
@@ -131,6 +134,12 @@
                                                             <div class="col-md-3"><h4>English</h4></div>
                                                             <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
                                                         </div>
+                                                        @php $needsOldDetails = []; @endphp
+
+                                                        @if(old('needsChoiceTitle'))
+                                                            @php $needsOldDetails = old('needsChoiceTitle');  @endphp
+                                                        @endif
+
                                                         @foreach($needsAssessmentSurvey['choices'] as $choiceIndex=>$choice)
                                                             @php 
                                                             $needsChoicesTranslations = !empty($choice['translations']) ? $choice['translations'] : [];
@@ -138,17 +147,18 @@
                                                             <div class="row border py-3">
                                                                 <div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
                                                                 <div class="col-md-9">
-                                                                    <input type="text" class="form-control" name="needsChoiceTitle[]" value="{{ ( (!empty($needsChoicesTranslations) && isset($needsChoicesTranslations[$lang]) ) ? $needsChoicesTranslations[$lang]['title'] : '') }}" />
+                                                                    <input type="text" class="form-control" name="needsChoiceTitle[]" value="{{ (!empty($needsOldDetails)) ? $needsOldDetails[$choiceIndex]  : ( (!empty($needsChoicesTranslations) && isset($needsChoicesTranslations[$lang]) ) ? $needsChoicesTranslations[$lang]['title'] : '') }}" required />
                                                                 </div>
-                                                                <input type="hidden" class="form-control" name="needsTranslations[]" value="{{ json_encode($needsChoicesTranslations) }}" />
-                                                                <input type="hidden" class="form-control" name="needsChoicesId[]" value="{{ $choice['id'] }}" />
+                                                                <input type="hidden" name="needsTranslations[]" value="{{ json_encode($needsChoicesTranslations) }}" />
+                                                                <input type="hidden" name="needsChoicesId[]" value="{{ $choice['id'] }}" />
                                                             </div>
                                                         @endforeach  
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
+                                        <button type="submit" name="save-draft-needs-choices" class="btn btn-success">Save Draft</button>
+                                        <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
                                     </form>
                                 @endif
                                 </div>
