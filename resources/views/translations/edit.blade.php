@@ -52,7 +52,7 @@
                             @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
                                 <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
                                     <div class="d-flex justify-content-end mb-2">
-                                        <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
+                                        <button type="submit" name="save-draft-self-choices" class="btn btn-primary">Save Draft</button>
                                         <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
                                     </div>
                                     @csrf
@@ -115,7 +115,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end mt-3">                                    
-                                        <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
+                                        <button type="submit" name="save-draft-self-choices" class="btn btn-primary">Save Draft</button>
                                         <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
                                     </div>
                                 </form>
@@ -123,8 +123,10 @@
 
                                 @if(isset($needsAssessmentSurvey['choices']))
                                     <form id="needs-assesment-choices" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                        <button type="submit" name="save-draft-needs-choices" class="btn btn-success">Save Draft</button>
-                                        <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button type="submit" name="save-draft-needs-choices" class="btn btn-primary">Save Draft</button>
+                                            <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
+                                        </div>
                                         @csrf
                                         <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
                                             <div class="accordion-item">
@@ -162,8 +164,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" name="save-draft-needs-choices" class="btn btn-success">Save Draft</button>
-                                        <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button type="submit" name="save-draft-needs-choices" class="btn btn-primary">Save Draft</button>
+                                            <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
+                                        </div>
                                     </form>
                                 @endif
                                 </div>
