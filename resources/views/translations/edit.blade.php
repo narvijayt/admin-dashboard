@@ -51,10 +51,12 @@
 
                             @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
                                 <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                    <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
-                                    <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
+                                    <div class="d-flex justify-content-end mb-2">
+                                        <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
+                                        <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
+                                    </div>
                                     @csrf
-                                    <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
+                                    <div class="accordion" id="selfAssessmentSectionAccordions">
                                         @php $questionsIndex = 1; @endphp
                                         @foreach($selfAssessmentSurvey['sections'] as $section)
                                             <div class="accordion-item">
@@ -111,8 +113,11 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
-                                    <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
+
+                                    <div class="d-flex justify-content-end mt-3">                                    
+                                        <button type="submit" name="save-draft-self-choices" class="btn btn-success">Save Draft</button>
+                                        <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
+                                    </div>
                                 </form>
                                 {{-- Display Needs Assessment Transaltions Section --}}
 
