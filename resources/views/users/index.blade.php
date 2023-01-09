@@ -28,15 +28,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-white">
+                    <div class="card card-white rounded-0  ">
                         
-                        <div class="card-header">
-                            <h4>Manage Users</h4>
+                        <div class="card-header bg-white py-3 ">
+                            <h5 class="mb-0">Manage Users</h5>
                         </div>
 
                         <div class="card-body">
                             @if(isset($response['data']) && !empty($response['data']))
-                                <table id="basic-datatable" class="table table-striped" style="width:100%">
+                                <table id="basic-datatable" class="table table-striped table-hover " style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -54,7 +54,7 @@
                                             <td>{{ $user['accountType'] }}</td>
                                             <td>{{ date("m/d/Y", strtotime($user['createdAt']) ) }}</td>
                                             <td>
-                                                <a href="{{ route('users.edit', ['userId' => $user['id'] ]) }}" class="btn btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Edit </a>
+                                                <a href="{{ route('users.edit', ['userId' => $user['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Edit </a>
                                             </td>
                                         </tr>
                                         @endforeach
