@@ -41,7 +41,7 @@ Class SelfAssessmentChoices{
             unset($data['id']);
         }
         $request_body = array_merge($request_body, $data);
-        return $this->ScoringEngine->_putRequest($request_body, true);
+        return $this->ScoringEngine->_putRequest($request_body, false);
         
     }
 
