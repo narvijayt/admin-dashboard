@@ -79,9 +79,10 @@ class TranslationController extends Controller
                 // pr($choiceArray); die;
                 $response = (new NeedsAssessmentChoices())->_updateNeedsAssessmentChoice($choiceArray);
                 if(isset($response['message'])){
-                    return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $responseBody['message']);
+                    return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
                 }
             }
+            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Translations to ".$languages[$lang]. " has been updated successfully.");
         }
 
         // Update Self Assessment Choices Translations
@@ -104,9 +105,9 @@ class TranslationController extends Controller
                     ];
                     
                     $response = (new SelfAssessmentChoices())->_updateSelfAssessmentChoice($choiceArray);
-                    pr($response); die;
+                    // pr($response); die;
                     if(isset($response['message'])){
-                        return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $responseBody['message']);
+                        return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
                     }
                 }
             }
