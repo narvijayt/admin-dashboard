@@ -1,3 +1,28 @@
+@font-face {
+    font-family: Santral-Bold;
+    src: url('/fonts/Santral-Bold.ttf');
+}
+
+@font-face {
+    font-family: Santral-Semi-Bold;
+    src: url('/fonts/Santral-Semi-Bold.ttf');
+}
+
+
+@font-face {
+    font-family: Catamaran-Light;
+    src: url('/fonts/Catamaran-Light.ttf');
+}
+
+@font-face {
+    font-family: Catamaran-Regular;
+    src: url('/fonts/Catamaran-Regular.ttf');
+}
+
+
+body{padding:0px; margin:0px; font-family:"Catamaran-Light";}
+h1,h2,h3,h4,h5,h6{ font-family:"Santral-Bold"; }
+
 [class*=sidebar-dark] .brand-link{color: rgba(255,255,255,.8); border-bottom: 1px solid #4b545c;}
 .brand-link{display: block;font-size: 1.25rem;line-height: 1.5;padding: 0.8125rem 0.5rem;transition: width .3s ease-in-out;white-space: nowrap;}
 .sidebar-dark{box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;}

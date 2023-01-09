@@ -1,4 +1,29 @@
-.login-container{margin-top: 5%;margin-bottom: 5%;}
-.login-form{padding: 5%;box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);}
-.login-form h3{text-align: center;color: #333;}
-.login-right-widget{background: #0062cc;box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);}
+@font-face {
+    font-family: Santral-Bold;
+    src: url('/fonts/Santral-Bold.ttf');
+}
+
+@font-face {
+    font-family: Santral-Semi-Bold;
+    src: url('/fonts/Santral-Semi-Bold.ttf');
+}
+
+@font-face {
+    font-family: Catamaran-Light;
+    src: url('/fonts/Catamaran-Light.ttf');
+}
+
+@font-face {
+    font-family: Catamaran-Regular;
+    src: url('/fonts/Catamaran-Regular.ttf');
+}
+
+
+body{padding:0px; margin:0px; font-family:"Catamaran-Light";}
+h1,h2,h3,h4,h5, h6{ font-family:"Santral-Bold"; }
+.form-control{padding: 14px ! important;font-size: 15px;}
+.login-form i{font-size: 23px;color: #ddd;}
+.form-control::placeholder {color: #a5a5a5; opacity: 1; }
+.form-control:-ms-input-placeholder { color: #a5a5a5;}
+.form-control::-ms-input-placeholder { color: #a5a5a5;}
+.bg-gradient-full{background: -webkit-linear-gradient(left,#6a11cb,#2575fc);}
