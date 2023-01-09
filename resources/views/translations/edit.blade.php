@@ -41,8 +41,8 @@
                                     <div class="form-group col-md-3">
                                         <label for="survey-version">Version</label>
                                         <select class="form-control" id="survey-version" name="version">
-                                        @for($versionLoop=1;$versionLoop<=4;$versionLoop++)
-                                            <option value="{{$versionLoop}}">{{$versionLoop}}</option>
+                                        @for($versionLoop=1;$versionLoop<= $selfAssessmentSurvey['version'];$versionLoop++)
+                                            <option value="{{$versionLoop}}" {{($versionLoop == $selfAssessmentSurvey['version']) ? "selected" : ""}} >{{$versionLoop}}</option>
                                         @endfor
                                         </select>
                                     </div>

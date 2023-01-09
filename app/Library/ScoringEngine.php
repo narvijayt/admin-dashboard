@@ -120,10 +120,11 @@ class ScoringEngine{
 
         $response = Http::withHeaders($this->headers)->accept('application/json')->get($this->endpoint_url, $this->request_body);
 		if($debug == true){
+			pr($args);
 			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
-			pr($response);
+			pr($response->json());
 			die;
 		}
         return $response->json();
@@ -153,10 +154,11 @@ class ScoringEngine{
 
         $response = Http::withHeaders($this->headers)->accept('application/json')->post($this->endpoint_url, $this->request_body);
 		if($debug == true){
+			pr($args);
 			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
-			pr($response);
+			pr($response->json());
 			die;
 		}
         return $response->json();
@@ -185,6 +187,7 @@ class ScoringEngine{
 
         $response = Http::withHeaders($this->headers)->accept('application/json')->put($this->endpoint_url, $this->request_body);
 		if($debug == true){
+			pr($args);
 			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
@@ -311,7 +314,25 @@ class ScoringEngine{
 		$this->url_query_string = '';
 		if(isset($args['query_string']) && !empty($args['query_string'])){
 			if(is_array($args['query_string']) || is_object($args['query_string'])){
-				$this->url_query_string = http_build_query($args['query_string']);
+				if(isset($args['query_string']['limit'])){
+					$limit = <<<'EOL'
+					$limit
+					EOL;
+					$this->url_query_string .= 	$limit."=".$args['query_string']['limit'];
+					unset($args['query_string']['limit']);
+				}
+				if(isset($args['query_string']['sort'])){
+					$sort = <<<'EOL'
+					$sort
+					EOL;
+					if(is_array($args['query_string']['sort'])){
+						foreach($args['query_string']['sort'] as $key=>$value){
+							$this->url_query_string .= 	!empty($this->url_query_string) ? "&".$sort."[".$key."]=".$value : $sort."[".$key."]=".$value;
+						}
+					}
+					unset($args['query_string']['sort']);
+				}
+				$this->url_query_string .= http_build_query($args['query_string']);
 			}else{
 				$this->url_params = $args['query_string'];
 			}

@@ -30,13 +30,21 @@ class TranslationController extends Controller
     }
 
     protected function edit($editionId, $lang){
-
-        $selfAssessmentSurveys =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(['editionId' => $editionId, "query_string" => ["limit" => 1] ]);
-
+        $selfAssessmentSurveys =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(['editionId' => $editionId, "query_string" => ["limit" => 1, "sort" => ["version" => "DESC"]] ]);
         if(isset($selfAssessmentSurveys['data']) && !empty($selfAssessmentSurveys['data'])){
             foreach($selfAssessmentSurveys['data'] as $selfSurvey){
-                $data['selfAssessmentSurvey'] =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(["id" => $selfSurvey['id'] ]);
-                break;
+                if(empty($selfSurvey['publishedAt'])){
+                    $data['selfAssessmentSurvey'] =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(["id" => $selfSurvey['id'] ]);
+                    break;
+                }              
+            }
+
+            if(!isset($data['selfAssessmentSurvey']) || empty($data['selfAssessmentSurvey'])){
+                die("not Set");
+                $newSelfAssessmentSurvey =  $this->SelfAssessmentSurveys->_createSelfAssessmentSurveys(["parentSurveyId" => $selfSurvey['id'] ]);
+                if(isset($newSelfAssessmentSurvey['id'])){
+                    $data['selfAssessmentSurvey'] =  $this->SelfAssessmentSurveys->_getSelfAssessmentSurveys(["id" => $newSelfAssessmentSurvey['id'] ]);
+                }
             }
         }
         $needsAssessmentSurveys =  $this->NeedsAssessmentSurveys->_getNeedsAssessmentSurveys(['editionId' => $editionId]);
