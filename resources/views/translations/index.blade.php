@@ -1,16 +1,16 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="content-wrapper" style="min-height: 230px;">
+<div class="content-wrapper vh-100" >
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 align-items-center py-3">
                 <div class="col-sm-6">
                     <h1 class="m-0">Translations</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
+                    <ol class="breadcrumb float-sm-right mb-0 justify-content-end">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Translations </li>
                     </ol>
@@ -28,10 +28,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-white">
+                    <div class="card card-white rounded-0">
                         
-                        <div class="card-header">
-                            <h4>Assessment Editions</h4>
+                        <div class="card-header bg-white py-3 ">
+                            <h5 class="mb-0">Assessment Editions</h5>
                         </div>
 
                         <div class="card-body">
@@ -49,9 +49,9 @@
                                         <tr>
                                             <td>{{ $edition['title'] }}</td>
                                             <td>{{ $edition['description'] }}</td>
-                                            <td>
+                                            <td >
                                                 @foreach($languages as $langKey=>$langLabel)
-                                                    <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class="btn btn-sm btn-success"> <i class="fa fa-pencil"></i> {{$langLabel}} </a>
+                                                    <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="icon-pencil me-1"></i> {{$langLabel}} </a>
                                                 @endforeach
                                             </td>
                                         </tr>
