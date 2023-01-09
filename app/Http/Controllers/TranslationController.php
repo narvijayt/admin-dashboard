@@ -75,7 +75,7 @@ class TranslationController extends Controller
             foreach($request->input('needsChoicesId') as $choiceIndex=>$choiceId){
                 $choiceArray = [
                     'id'    =>  $choiceId, 
-                    'translations'  =>  $request->input('needsTranslations')[$choiceIndex]
+                    'translations'  =>  json_decode($request->input('needsTranslations')[$choiceIndex])
                 ];
 
                 $choiceArray['translations']    =  [ 
@@ -103,7 +103,7 @@ class TranslationController extends Controller
                     
                     $choiceArray = [
                         'id'    =>  $choiceId, 
-                        'translations'  =>  $choiceDetails['translations'][$choiceIndex]
+                        'translations'  =>  json_decode($choiceDetails['translations'][$choiceIndex])
                     ];
 
                     $choiceArray['translations']    =  [ 

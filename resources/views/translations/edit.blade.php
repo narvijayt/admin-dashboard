@@ -50,86 +50,66 @@
                             </form>
 
                             @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
-<<<<<<< HEAD
                                 <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
                                     <button type="submit" name="save-form" class="btn btn-success">Save</button>
                                     @csrf
                                     <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
-                                    @php $questionsIndex = 1; @endphp
-                                    @foreach($selfAssessmentSurvey['sections'] as $section)
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="flush-sectionheading_{{$section['id']}}">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$section['id']}}">
-                                                    {{ $section['title'] }}
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
-                                                <div class="accordion-body">
-                                                    <div class="row bg-light">
-                                                        <div class="col-md-3"><h4>English</h4></div>
-                                                        <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
-                                                    </div>
-=======
-                                <div class="accordion rounded-0 mt-3" id="selfAssessmentSectionAccordions">
-                                @php $questionsIndex = 1; @endphp
-                                @foreach($selfAssessmentSurvey['sections'] as $section)
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="flush-sectionheading_{{$section['id']}}">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$section['id']}}">
-                                                {{ $section['title'] }}
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
-                                            <div class="accordion-body ">
-                                                <div class="row bg-light px-3">
-                                                    <div class="col-md-3"><h4>English</h4></div>
-                                                    <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
-                                                </div>
-                                                <form id="" class="" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                                    <button type="submit" name="save-form" class="btn btn-success">Save</button>
-                                                    @csrf
->>>>>>> 358a3de206b3fa47686f972df2a827d5914f6f55
-
-                                                    @php $questionsOldDetails = []; @endphp
-
-                                                    @if(old('selfQuestionChoices'))
-                                                        @php $questionsOldDetails = old('selfQuestionChoices');  @endphp
-                                                    @endif
-                                                    
-
-                                                    @foreach($section['questions'] as $question)
-                                                        <input type="hidden" name="question_id[]" value="{{ $question['id'] }}" />
-                                                        <div class="row bg-primary">
-                                                            <div class="col-md-12"><h4>Question {{ $questionsIndex }}</h4></div>
+                                        @php $questionsIndex = 1; @endphp
+                                        @foreach($selfAssessmentSurvey['sections'] as $section)
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-sectionheading_{{$section['id']}}">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$section['id']}}">
+                                                        {{ $section['title'] }}
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
+                                                    <div class="accordion-body">
+                                                        <div class="row bg-light">
+                                                            <div class="col-md-3"><h4>English</h4></div>
+                                                            <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
                                                         </div>
-                                                        
-                                                        @foreach($question['choices'] as $selfChoiceIndex=>$choice)
-                                                            @php  $selfChoicesTranslations = json_decode($choice['translations']); @endphp
-                                                            <input type="hidden" name="selfQuestionChoices[{{$question['id']}}][choice_id][]" value="{{ $choice['id'] }}" />
-                                                            <div class="row border px-3">
-                                                                <div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
-                                                                <div class="col-md-9">
-                                                                    <input type="text" class="form-control" name="selfQuestionChoices[{{$question['id']}}][choiceTitle][]" value="{{  (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']])) ? $questionsOldDetails[$question['id']]['choiceTitle'][$selfChoiceIndex]  : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang]) ) ? $selfChoicesTranslations[$lang]['title'] : '') }}" />
-                                                                </div>
 
-                                                                <div class="col-md-3">
-                                                                    <strong>Description: </strong> 
-                                                                    <p>{{ $choice['description'] }}</p>
-                                                                </div>
-                                                                <div class="col-md-9">
-                                                                    <input type="text" class="form-control" name="selfQuestionChoices[{{$question['id']}}][choiceDescription][]" value="{{ (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']]) ) ? $questionsOldDetails[$question['id']]['choiceDescription'][$selfChoiceIndex] : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang])) ? $selfChoicesTranslations[$lang]['description'] : '') }}" />
-                                                                </div>
-                                                                <input type="hidden" class="form-control" name="selfQuestionChoices[{{$question['id']}}][translations][]" value="{{ $selfChoicesTranslations }}" />
+                                                        @php $questionsOldDetails = []; @endphp
+
+                                                        @if(old('selfQuestionChoices'))
+                                                            @php $questionsOldDetails = old('selfQuestionChoices');  @endphp
+                                                        @endif
+                                                        
+
+                                                        @foreach($section['questions'] as $question)
+                                                            <input type="hidden" name="question_id[]" value="{{ $question['id'] }}" />
+                                                            <div class="row bg-primary">
+                                                                <div class="col-md-12"><h4>Question {{ $questionsIndex }}</h4></div>
                                                             </div>
-                                                        @endforeach
+                                                            
+                                                            @foreach($question['choices'] as $selfChoiceIndex=>$choice)
+                                                                @php  $selfChoicesTranslations = !empty($choice['translations']) ? $choice['translations'] : []; @endphp
+                                                                <input type="hidden" name="selfQuestionChoices[{{$question['id']}}][choice_id][]" value="{{ $choice['id'] }}" />
+                                                                <div class="row border px-3">
+                                                                    <div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" class="form-control" name="selfQuestionChoices[{{$question['id']}}][choiceTitle][]" value="{{  (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']])) ? $questionsOldDetails[$question['id']]['choiceTitle'][$selfChoiceIndex]  : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang]) ) ? $selfChoicesTranslations[$lang]['title'] : '') }}" />
+                                                                    </div>
 
-                                                        @php $questionsIndex++; @endphp
-                                                    @endforeach                    
-                                                        
+                                                                    <div class="col-md-3">
+                                                                        <strong>Description: </strong> 
+                                                                        <p>{{ $choice['description'] }}</p>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" class="form-control" name="selfQuestionChoices[{{$question['id']}}][choiceDescription][]" value="{{ (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']]) ) ? $questionsOldDetails[$question['id']]['choiceDescription'][$selfChoiceIndex] : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang])) ? $selfChoicesTranslations[$lang]['description'] : '') }}" />
+                                                                    </div>
+                                                                    <input type="hidden" class="form-control" name="selfQuestionChoices[{{$question['id']}}][translations][]" value="{{ json_encode($selfChoicesTranslations) }}" />
+                                                                </div>
+                                                            @endforeach
+
+                                                            @php $questionsIndex++; @endphp
+                                                        @endforeach                    
+                                                            
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                     <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
                                 </form>
                                 {{-- Display Needs Assessment Transaltions Section --}}
@@ -138,35 +118,36 @@
                                     <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
                                         <button type="submit" name="save-form" class="btn btn-success">Save</button>
                                         @csrf
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="flush-sectionheading_{{$needsAssessmentSurvey['id']}}">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
-                                                    {{ $needsAssessmentSurvey['title'] }}
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
-                                                <div class="accordion-body">
-                                                    <div class="row bg-light">
-                                                        <div class="col-md-3"><h4>English</h4></div>
-                                                        <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
-                                                    </div>
-                                                    @foreach($needsAssessmentSurvey['choices'] as $choiceIndex=>$choice)
-                                                        @php 
-                                                        $needsChoicesTranslations = json_decode($choice['translations']);
-                                                        @endphp
-                                                        <div class="row border py-3">
-                                                            <div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
-                                                            <div class="col-md-9">
-                                                                <input type="text" class="form-control" name="needsChoiceTitle[]" value="{{ ( (!empty($needsChoicesTranslations) && isset($needsChoicesTranslations[$lang]) ) ? $needsChoicesTranslations[$lang]['title'] : '') }}" />
-                                                            </div>
-                                                            <input type="hidden" class="form-control" name="needsTranslations[]" value="{{ $needsChoicesTranslations }}" />
-                                                            <input type="hidden" class="form-control" name="needsChoicesId[]" value="{{ $choice['id'] }}" />
+                                        <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-sectionheading_{{$needsAssessmentSurvey['id']}}">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
+                                                        {{ $needsAssessmentSurvey['title'] }}
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
+                                                    <div class="accordion-body">
+                                                        <div class="row bg-light">
+                                                            <div class="col-md-3"><h4>English</h4></div>
+                                                            <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
                                                         </div>
-                                                    @endforeach  
+                                                        @foreach($needsAssessmentSurvey['choices'] as $choiceIndex=>$choice)
+                                                            @php 
+                                                            $needsChoicesTranslations = !empty($choice['translations']) ? $choice['translations'] : [];
+                                                            @endphp
+                                                            <div class="row border py-3">
+                                                                <div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" class="form-control" name="needsChoiceTitle[]" value="{{ ( (!empty($needsChoicesTranslations) && isset($needsChoicesTranslations[$lang]) ) ? $needsChoicesTranslations[$lang]['title'] : '') }}" />
+                                                                </div>
+                                                                <input type="hidden" class="form-control" name="needsTranslations[]" value="{{ json_encode($needsChoicesTranslations) }}" />
+                                                                <input type="hidden" class="form-control" name="needsChoicesId[]" value="{{ $choice['id'] }}" />
+                                                            </div>
+                                                        @endforeach  
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                                     
                                         <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
                                     </form>
                                 @endif
