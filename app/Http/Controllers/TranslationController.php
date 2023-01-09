@@ -93,6 +93,7 @@ class TranslationController extends Controller
             return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Translations to ".$languages[$lang]. " has been updated successfully.");
         }
 
+        // pr($request->input('selfQuestionChoices')); die;
         // Update Self Assessment Choices Translations
         if($request->input('selfQuestionChoices')){
             // return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', "Something went wrong. Please try again later.");

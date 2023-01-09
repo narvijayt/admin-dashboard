@@ -50,24 +50,24 @@
                             </form>
 
                             @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
-                                <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
-                                @php $questionsIndex = 1; @endphp
-                                @foreach($selfAssessmentSurvey['sections'] as $section)
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="flush-sectionheading_{{$section['id']}}">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$section['id']}}">
-                                                {{ $section['title'] }}
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
-                                            <div class="accordion-body">
-                                                <div class="row bg-light">
-                                                    <div class="col-md-3"><h4>English</h4></div>
-                                                    <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
-                                                </div>
-                                                <form id="" class="" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                                    <button type="submit" name="save-form" class="btn btn-success">Save</button>
-                                                    @csrf
+                                <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+                                    <button type="submit" name="save-form" class="btn btn-success">Save</button>
+                                    @csrf
+                                    <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
+                                    @php $questionsIndex = 1; @endphp
+                                    @foreach($selfAssessmentSurvey['sections'] as $section)
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-sectionheading_{{$section['id']}}">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$section['id']}}">
+                                                    {{ $section['title'] }}
+                                                </button>
+                                            </h2>
+                                            <div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
+                                                <div class="accordion-body">
+                                                    <div class="row bg-light">
+                                                        <div class="col-md-3"><h4>English</h4></div>
+                                                        <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
+                                                    </div>
 
                                                     @php $questionsOldDetails = []; @endphp
 
@@ -104,31 +104,31 @@
 
                                                         @php $questionsIndex++; @endphp
                                                     @endforeach                    
-                                                    <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
-                                                </form>
+                                                        
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
-
+                                    @endforeach
+                                    <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
+                                </form>
                                 {{-- Display Needs Assessment Transaltions Section --}}
 
                                 @if(isset($needsAssessmentSurvey['choices']))
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="flush-sectionheading_{{$needsAssessmentSurvey['id']}}">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
-                                                {{ $needsAssessmentSurvey['title'] }}
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
-                                            <div class="accordion-body">
-                                                <div class="row bg-light">
-                                                    <div class="col-md-3"><h4>English</h4></div>
-                                                    <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
-                                                </div>
-                                                <form id="" class="" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                                    <button type="submit" name="save-form" class="btn btn-success">Save</button>
-                                                    @csrf
+                                    <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+                                        <button type="submit" name="save-form" class="btn btn-success">Save</button>
+                                        @csrf
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-sectionheading_{{$needsAssessmentSurvey['id']}}">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
+                                                    {{ $needsAssessmentSurvey['title'] }}
+                                                </button>
+                                            </h2>
+                                            <div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
+                                                <div class="accordion-body">
+                                                    <div class="row bg-light">
+                                                        <div class="col-md-3"><h4>English</h4></div>
+                                                        <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
+                                                    </div>
                                                     @foreach($needsAssessmentSurvey['choices'] as $choiceIndex=>$choice)
                                                         @php 
                                                         $needsChoicesTranslations = json_decode($choice['translations']);
@@ -141,12 +141,13 @@
                                                             <input type="hidden" class="form-control" name="needsTranslations[]" value="{{ $needsChoicesTranslations }}" />
                                                             <input type="hidden" class="form-control" name="needsChoicesId[]" value="{{ $choice['id'] }}" />
                                                         </div>
-                                                    @endforeach                   
-                                                    <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
-                                                </form>
+                                                    @endforeach  
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                                     
+                                        <button type="submit" name="save-form" class="btn btn-success">Save Bottom</button>
+                                    </form>
                                 @endif
                                 </div>
                             @endif
