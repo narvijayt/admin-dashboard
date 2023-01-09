@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
         @include('layouts.includes.head')
         
@@ -17,6 +18,7 @@
     </head>
     <body class="sidebar-mini layout-fixed">
         <div class="wrapper">
+		<div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 bg-dark px-0">
                     @include('layouts.includes.sidebar')
@@ -29,6 +31,7 @@
                 </div>
             </div>
         </div>
+		</div>
 
 
         @include('layouts.includes.scripts')
