@@ -35,8 +35,11 @@
                         </div>
 
                         <div class="card-body">
+						
                             @if(isset($response['data']) && !empty($response['data']))
-                                <table id="basic-datatable" class="table table-striped" style="width:100%">
+								<div class="row">
+							<div class="col-sm-12">
+                                <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Title</th>
@@ -67,6 +70,8 @@
                                 </table>
                             @endif
                         </div>
+					 </div>
+					 </div>
                     </div>
                 </div>
             </div>

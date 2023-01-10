@@ -46,6 +46,7 @@ class TranslationController extends Controller
                 }
             }
         }
+
         $needsAssessmentSurveys =  (new NeedsAssessmentSurveys())->_getNeedsAssessmentSurveys(['editionId' => $editionId]);
         if(isset($needsAssessmentSurveys['data']) && !empty($needsAssessmentSurveys['data'])){
             foreach($needsAssessmentSurveys['data'] as $needsSurvey){
