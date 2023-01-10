@@ -20,10 +20,10 @@
         <div class="wrapper">
 		<div class="container-fluid">
             <div class="row">
-                <div class="col-md-2 bg-dark px-0">
+                <div class="col-md-2 bg-dark px-0 sidebar-fix">
                     @include('layouts.includes.sidebar')
                 </div>
-                <div class="col-md-10 px-0">
+                <div class="col-md-10 px-0 content-right">
                     @include('layouts.includes.header')
 
 

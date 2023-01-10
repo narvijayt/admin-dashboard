@@ -36,9 +36,11 @@
                         </div>
                         
                         <div class="card-body">
-                            <form class="form">
-                                <div class="row">
-                                    <div class="form-group col-md-3">
+						<div class="bg-light p-4 border mb-4">
+                            @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
+                                <form id="" class="mt-0" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+							 <div class="row align-items-center pb-3">
+							<div class="form-group col-md-3">
                                         <label for="survey-version"><b>Version</b></label>
                                         <select class="form-control" id="survey-version" name="version">
                                         @for($versionLoop=1;$versionLoop<= $selfAssessmentSurvey['version'];$versionLoop++)
@@ -46,15 +48,13 @@
                                         @endfor
                                         </select>
                                     </div>
-                                </div>
-                            </form>
-
-                            @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
-                                <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                    <div class="d-flex justify-content-end mb-2">
-                                        <button type="submit" name="save-draft-self-choices" class="btn btn-primary">Save Draft</button>
-                                        <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
+										<div class="form-group col-md-9">
+                                    <div class="d-flex justify-content-end ">
+                                        <button type="submit" name="save-draft-self-choices" class="btn btn-primary me-2">Save Draft</button>
+                                        <button type="submit" name="publish-self-choices" class="btn btn-secondary">Publish</button>
                                     </div>
+									</div>
+									</div>
                                     @csrf
                                     <div class="accordion" id="selfAssessmentSectionAccordions">
                                         @php $questionsIndex = 1; @endphp
@@ -67,9 +67,9 @@
                                                 </h2>
                                                 <div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
                                                     <div class="accordion-body">
-                                                        <div class="row bg-light">
-                                                            <div class="col-md-3"><h4>English</h4></div>
-                                                            <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
+                                                        <div class="row bg-light bg-light mb-2 p-2 border">
+                                                            <div class="col-md-3"><h5 class="mb-0">English</h5></div>
+                                                            <div class="col-md-9"><h5  class="mb-0">{{ $languages[$lang]}} Translation</h5></div>
                                                         </div>
 
                                                         @php $questionsOldDetails = []; @endphp
@@ -81,8 +81,8 @@
 
                                                         @foreach($section['questions'] as $question)
                                                             <input type="hidden" name="question_id[]" value="{{ $question['id'] }}" />
-                                                            <div class="row bg-primary">
-                                                                <div class="col-md-12"><h4>Question {{ $questionsIndex }}</h4></div>
+                                                            <div class="row bg-primary py-3">
+                                                                <div class="col-md-12"><h5 class="mb-0 text-white">Question {{ $questionsIndex }}</h5></div>
                                                             </div>
                                                             
                                                             @foreach($question['choices'] as $selfChoiceIndex=>$choice)
@@ -115,20 +115,21 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end mt-3">                                    
-                                        <button type="submit" name="save-draft-self-choices" class="btn btn-primary">Save Draft</button>
-                                        <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
+                                        <button type="submit" name="save-draft-self-choices" class="btn btn-primary me-2">Save Draft</button>
+                                        <button type="submit" name="publish-self-choices" class="btn btn-secondary">Publish</button>
                                     </div>
                                 </form>
+								</div>
                                 {{-- Display Needs Assessment Transaltions Section --}}
-
+                               <div class="bg-light p-4 border">
                                 @if(isset($needsAssessmentSurvey['choices']))
-                                    <form id="needs-assesment-choices" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+                                    <form id="needs-assesment-choices" class="mt-0" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
                                         <div class="d-flex justify-content-end mb-2">
-                                            <button type="submit" name="save-draft-needs-choices" class="btn btn-primary">Save Draft</button>
-                                            <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
+                                            <button type="submit" name="save-draft-needs-choices" class="btn btn-primary me-2">Save Draft</button>
+                                            <button type="submit" name="publish-needs-choices" class="btn btn-secondary">Publish</button>
                                         </div>
                                         @csrf
-                                        <div class="accordion accordion-flush" id="selfAssessmentSectionAccordions">
+                                        <div class="accordion " id="selfAssessmentSectionAccordions">
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="flush-sectionheading_{{$needsAssessmentSurvey['id']}}">
                                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
@@ -137,9 +138,9 @@
                                                 </h2>
                                                 <div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
                                                     <div class="accordion-body">
-                                                        <div class="row bg-light">
-                                                            <div class="col-md-3"><h4>English</h4></div>
-                                                            <div class="col-md-9"><h4>{{ $languages[$lang]}} Translation</h4></div>
+                                                        <div class="row bg-light mb-2 p-2 border">
+                                                            <div class="col-md-3"><h5>English</h5></div>
+                                                            <div class="col-md-9"><h5>{{ $languages[$lang]}} Translation</h5></div>
                                                         </div>
                                                         @php $needsOldDetails = []; @endphp
 
@@ -164,13 +165,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-end mb-2">
-                                            <button type="submit" name="save-draft-needs-choices" class="btn btn-primary">Save Draft</button>
-                                            <button type="submit" name="publish-needs-choices" class="btn btn-success">Publish</button>
+                                        <div class="d-flex justify-content-end mb-2 mt-3">
+                                            <button type="submit" name="save-draft-needs-choices" class="btn btn-primary me-2">Save Draft</button>
+                                            <button type="submit" name="publish-needs-choices" class="btn btn-secondary">Publish</button>
                                         </div>
                                     </form>
                                 @endif
                                 </div>
+								</div>
                             @endif
                         </div>
                     </div>

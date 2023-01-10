@@ -1,4 +1,4 @@
-<div class="sidebar-nav sidebar-dark px-0 box-shadow-none">
+<div class="sidebar-nav sidebar-dark px-0 box-shadow-none min-vh-100">
     <!-- Brand Logo -->
     <a href="javascript:;" class="brand-link px-3">
         <span class="brand-text font-weight-light"><b> {{ env('APP_NAME', 'Admin Dashboard')}}</b></span>

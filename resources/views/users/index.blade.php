@@ -35,8 +35,10 @@
                         </div>
 
                         <div class="card-body">
-                            @if(isset($response['data']) && !empty($response['data']))
-                                <table id="basic-datatable" class="table table-striped table-hover " style="width:100%">
+						@if(isset($response['data']) && !empty($response['data']))
+								<div class="row">
+							<div class="col-sm-12">
+                                <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -70,7 +72,9 @@
                                     </tfoot>
                                 </table>
                             @endif
-                        </div>
+						  </div>
+						  </div>
+                       </div>
                     </div>
                 </div>
             </div>
