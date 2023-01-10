@@ -93,14 +93,12 @@ class TranslationController extends Controller
                 if(!empty($request->input('needsChoiceTitle')[$choiceIndex])){
                     $choiceArray = [
                         'id'    =>  $choiceId, 
-                        'translations'  =>  json_decode($request->input('needsTranslations')[$choiceIndex])
+                        'translations'  =>  (array) json_decode($request->input('needsTranslations')[$choiceIndex])
                     ];
-
-                    $choiceArray['translations']    =  [ 
-                        $lang => [
-                            "title" => $request->input('needsChoiceTitle')[$choiceIndex],
-                            // "description" => $request->input('needsTranslations')[$choiceIndex],
-                        ],
+                    
+                    $choiceArray['translations'][$lang]    =   [
+                        "title" => $request->input('needsChoiceTitle')[$choiceIndex],
+                        // "description" => $request->input('needsTranslations')[$choiceIndex],
                     ];
                     // pr($choiceArray); die;
                     $response = (new NeedsAssessmentChoices())->_updateNeedsAssessmentChoice($choiceArray);
@@ -120,14 +118,12 @@ class TranslationController extends Controller
                     if(!empty($choiceDetails['choiceTitle'][$choiceIndex]) || !empty($choiceDetails['choiceDescription'][$choiceIndex])){
                         $choiceArray = [
                             'id'    =>  $choiceId, 
-                            'translations'  =>  json_decode($choiceDetails['translations'][$choiceIndex])
+                            'translations'  =>  (array) json_decode($choiceDetails['translations'][$choiceIndex])
                         ];
-
-                        $choiceArray['translations']    =  [ 
-                            $lang => [
-                                "title" => $choiceDetails['choiceTitle'][$choiceIndex],
-                                "description" => $choiceDetails['choiceDescription'][$choiceIndex],
-                            ],
+                        
+                        $choiceArray['translations'][$lang]    =  [
+                            "title" => $choiceDetails['choiceTitle'][$choiceIndex],
+                            "description" => $choiceDetails['choiceDescription'][$choiceIndex],
                         ];
                         
                         $response = (new SelfAssessmentChoices())->_updateSelfAssessmentChoice($choiceArray);
