@@ -118,13 +118,14 @@ class ScoringEngine{
         // Add Request Body
         $this->_addRequestBody($args);
 
-        $response = Http::withHeaders($this->headers)->accept('application/json')->get($this->endpoint_url, $this->request_body);
+        $response = Http::withHeaders($this->headers)->accept('application/json')->retry(3, 100)->get($this->endpoint_url, $this->request_body);
 		if($debug == true){
 			pr($args);
 			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
 			pr($response->json());
+			pr($response->headers());
 			die;
 		}
         return $response->json();
@@ -152,13 +153,14 @@ class ScoringEngine{
         // Add Request Body
         $this->_addRequestBody($args);
 
-        $response = Http::withHeaders($this->headers)->accept('application/json')->post($this->endpoint_url, $this->request_body);
+        $response = Http::withHeaders($this->headers)->accept('application/json')->retry(3, 100)->post($this->endpoint_url, $this->request_body);
 		if($debug == true){
 			pr($args);
 			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
 			pr($response->json());
+			pr($response->headers());
 			die;
 		}
         return $response->json();
@@ -185,13 +187,14 @@ class ScoringEngine{
         // Add Request Body
         $this->_addRequestBody($args);
 
-        $response = Http::withHeaders($this->headers)->accept('application/json')->put($this->endpoint_url, $this->request_body);
+        $response = Http::withHeaders($this->headers)->accept('application/json')->retry(3, 100)->put($this->endpoint_url, $this->request_body);
 		if($debug == true){
 			pr($args);
 			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
 			pr($response->json());
+			pr($response->headers());
 			die;
 		}
         return $response->json();
@@ -315,19 +318,14 @@ class ScoringEngine{
 		if(isset($args['query_string']) && !empty($args['query_string'])){
 			if(is_array($args['query_string']) || is_object($args['query_string'])){
 				if(isset($args['query_string']['limit'])){
-					$limit = <<<'EOL'
-					$limit
-					EOL;
-					$this->url_query_string .= 	$limit."=".$args['query_string']['limit'];
+					
+					$this->url_query_string .= 	"$"."limit=".$args['query_string']['limit'];
 					unset($args['query_string']['limit']);
 				}
 				if(isset($args['query_string']['sort'])){
-					$sort = <<<'EOL'
-					$sort
-					EOL;
 					if(is_array($args['query_string']['sort'])){
 						foreach($args['query_string']['sort'] as $key=>$value){
-							$this->url_query_string .= 	!empty($this->url_query_string) ? "&".$sort."[".$key."]=".$value : $sort."[".$key."]=".$value;
+							$this->url_query_string .= 	!empty($this->url_query_string) ? "&$"."sort[".$key."]=".$value : "$"."sort[".$key."]=".$value;
 						}
 					}
 					unset($args['query_string']['sort']);
