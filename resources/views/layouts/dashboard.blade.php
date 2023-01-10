@@ -23,11 +23,14 @@
                 <div class="col-md-2 bg-dark px-0 sidebar-fix">
                     @include('layouts.includes.sidebar')
                 </div>
-                <div class="col-md-10 px-0 content-right">
+                <div class="col-md-10 px-0 content-right vh-100">
                     @include('layouts.includes.header')
 
-
-                    @yield('content')
+					<div class="content-wrapper pb-5" >
+						@yield('content')
+					</div>
+					
+					@include('layouts.includes.footer')
                 </div>
             </div>
         </div>
@@ -36,6 +39,6 @@
 
         @include('layouts.includes.scripts')
 
-        @include('layouts.includes.footer')
+      
     </body>
 </html>

@@ -38,6 +38,9 @@ body .table thead th{ vertical-align: bottom; border-bottom: 2px solid #e3e6f0 !
 tbody, td, tfoot, th, thead, tr{border-color: #e3e6f0 ! important;}
 body .sidebar-fix{  z-index: 1000;bottom: 0;top: 0; position: fixed;}
 body .content-right {margin-left: 16.7%;}
+.accordion-button:not(.collapsed){color: #fff;background-color:#212529 !important;}
+.accordion-button:not(.collapsed)::after{filter: brightness(0) invert(1) !important;}
+select.form-control { -webkit-appearance: menulist; }
 @media (min-width: 768px){
     .navbar-white{background-color: #fff;color: #1f2d3d;}
     .main-header{border-bottom: 1px solid #dee2e6;z-index: 1034;}

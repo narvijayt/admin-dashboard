@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="content-wrapper vh-100">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -38,7 +38,7 @@
 						@if(isset($response['data']) && !empty($response['data']))
 								<div class="row">
 							<div class="col-sm-12">
-                                <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width:100%">
+                                <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
