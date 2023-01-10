@@ -36,9 +36,11 @@
                         </div>
                         
                         <div class="card-body">
-                            <form class="form">
-                                <div class="row">
-                                    <div class="form-group col-md-3">
+						<div class="bg-light">
+                            @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
+                                <form id="" class="mt-2" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+							 <div class="row align-items-center py-3">
+							<div class="form-group col-md-3">
                                         <label for="survey-version"><b>Version</b></label>
                                         <select class="form-control" id="survey-version" name="version">
                                         @for($versionLoop=1;$versionLoop<= $selfAssessmentSurvey['version'];$versionLoop++)
@@ -46,15 +48,13 @@
                                         @endfor
                                         </select>
                                     </div>
-                                </div>
-                            </form>
-
-                            @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
-                                <form id="" class="mt-5" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-                                    <div class="d-flex justify-content-end mb-2">
+										<div class="form-group col-md-9">
+                                    <div class="d-flex justify-content-end ">
                                         <button type="submit" name="save-draft-self-choices" class="btn btn-primary">Save Draft</button>
                                         <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
                                     </div>
+									</div>
+									</div>
                                     @csrf
                                     <div class="accordion" id="selfAssessmentSectionAccordions">
                                         @php $questionsIndex = 1; @endphp
@@ -119,6 +119,7 @@
                                         <button type="submit" name="publish-self-choices" class="btn btn-success">Publish</button>
                                     </div>
                                 </form>
+								</div>
                                 {{-- Display Needs Assessment Transaltions Section --}}
 
                                 @if(isset($needsAssessmentSurvey['choices']))
