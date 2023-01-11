@@ -2,7 +2,11 @@ jQuery(document).ready(function($) {
 
     // Validate Self Assessment Survey Choices before publish
     $("button[name='save-draft-self-choices']").on("click", function(){
-        $(this).closest("form").trigger("submit");
+        $(this).closest("form").validate().destroy();
+        $(document).find("input[name^='selfQuestionChoices']").each(function(i,e){
+            $(e).removeClass('is-invalid').closest('.col-md-9').find(".invalid-feedback").remove();
+        });
+        $(this).closest("form").submit();
     });
     $("button[name='publish-self-choices']").on("click", function(){
         $(this).closest("form").validate({
@@ -34,11 +38,17 @@ jQuery(document).ready(function($) {
     })
 
 
-    $("button[name='save-draft-needs-choices']").on("click", function(){
-        $(this).closest("form").trigger("submit");
+    $(".save-draft-needs-choices").on("click", function(){        
+        console.log("Draft Mode!");
+        $(this).closest("form").validate().destroy();
+        $(document).find("input[name^='needsChoiceTitle']").each(function(i,e){
+            $(e).removeClass('is-invalid').closest('.col-md-9').find(".invalid-feedback").remove();
+        });
+        $(this).closest("form").submit();
     });
     // validate Needs Assessment Survey Choices before Publish
-    $("button[name='publish-needs-choices']").on("click", function(){
+    $(".publish-needs-choices").on("click", function(){
+        console.log("Publish Mode!");
         $(this).closest("form").validate({
             errorElement: 'span',
             errorClass: 'error',

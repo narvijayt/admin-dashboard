@@ -78,13 +78,23 @@ class TranslationController extends Controller
      */
     protected function store(Request $request, $editionId, $lang){
         
-        /*$validateInputArray = ['selfQuestionChoices' => 'required'];
-        if($request->input("needsChoiceTitle")){
-            $validateInputArray = ['needsChoiceTitle.*' => 'required'];
-        }
+        if($request->input('save-draft-self-choices')){
+            $errors = [];
+            foreach($request->input('selfQuestionChoices') as $questionId => $choiceDetails){
+                foreach($choiceDetails['choice_id'] as $choiceIndex=>$choiceId){
+                    if(!empty($choiceDetails['choiceTitle'][$choiceIndex]) && empty($choiceDetails['choiceDescription'][$choiceIndex])){
+                        $errors["invalid_".str_replace("-","_", $choiceId)."_data"] = "Choice Description is required to update the translations.";
+                    }
+                    if(empty($choiceDetails['choiceTitle'][$choiceIndex]) && !empty($choiceDetails['choiceDescription'][$choiceIndex])){
+                        $errors["invalid_".str_replace("-","_", $choiceId)."_data"] = "Choice Title is required to update the translations.";
+                    }
+                }
+            }
 
-        $validated = $request->validate($validateInputArray);*/
-        
+            if(!empty($errors)){
+                return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $errors);
+            }
+        }
         // Update Needs Assessment Choices Translations
         $languages = se_languages();
         // pr($request->all()); die;
@@ -108,7 +118,7 @@ class TranslationController extends Controller
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Translations to ".$languages[$lang]. " has been updated successfully.");
+            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Needs Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
         }
 
         // pr($request->input('selfQuestionChoices')); die;
@@ -116,7 +126,7 @@ class TranslationController extends Controller
         if($request->input('selfQuestionChoices')){
             foreach($request->input('selfQuestionChoices') as $questionId => $choiceDetails){
                 foreach($choiceDetails['choice_id'] as $choiceIndex=>$choiceId){
-                    if(!empty($choiceDetails['choiceTitle'][$choiceIndex]) || !empty($choiceDetails['choiceDescription'][$choiceIndex])){
+                    if(!empty($choiceDetails['choiceTitle'][$choiceIndex]) && !empty($choiceDetails['choiceDescription'][$choiceIndex])){
                         $choiceArray = [
                             'id'    =>  $choiceId, 
                             'translations'  =>  (array) json_decode($choiceDetails['translations'][$choiceIndex])
@@ -135,7 +145,7 @@ class TranslationController extends Controller
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Translations to ".$languages[$lang]. " has been updated successfully.");
+            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
         }
     }
 }

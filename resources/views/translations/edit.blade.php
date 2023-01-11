@@ -37,14 +37,14 @@
                         </div>
                         
                         <div class="card-body">
-						   <h5 class="text-primary mt-2">Self Assessment Chooses</h5>
+						   <h5 class="text-primary mt-2">Self Assessment Choices</h5>
 							 @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
 								<div class="bg-light p-4 border mb-4">
 									<form id="" class="mt-0" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
 										<div class="row align-items-center pb-3">
 											<div class="form-group col-md-3">
-												<label for="survey-version"><b>Version</b></label>
-												<select class="form-control" id="survey-version" name="version">
+												<label for="self-survey-version"><b>Version</b></label>
+												<select class="form-control" id="self-survey-version" name="selfAssessmentVersion">
 												@for($versionLoop=1;$versionLoop<= $selfAssessmentSurvey['version'];$versionLoop++)
 													<option value="{{$versionLoop}}" {{($versionLoop == $selfAssessmentSurvey['version']) ? "selected" : ""}} >{{$versionLoop}}</option>
 												@endfor
@@ -52,8 +52,8 @@
 											</div>
 											<div class="form-group col-md-9">
 												<div class="d-flex justify-content-end ">
-													<button type="submit" name="save-draft-self-choices" class="btn btn-primary me-2"><i class="icon-save me-1"></i>Save Draft</button>
-													<button type="submit" name="publish-self-choices" class="btn btn-secondary"><i class="icon-file-text-alt me-1"></i>Publish</button>
+													<button type="submit" name="save-draft-self-choices" class="btn btn-primary me-2" value="save"><i class="icon-save me-1"></i>Save Draft</button>
+													<button type="submit" name="publish-self-choices" class="btn btn-secondary" value="publish"><i class="icon-file-text-alt me-1"></i>Publish</button>
 												</div>
 											</div>
 										</div>
@@ -117,20 +117,33 @@
 										</div>
 
 										<div class="d-flex justify-content-end mt-3">                                    
-											<button type="submit" name="save-draft-self-choices" class="btn btn-primary me-2"><i class="icon-save me-1"></i> Save Draft</button>
-											<button type="submit" name="publish-self-choices" class="btn btn-secondary"><i class="icon-file-text-alt me-1"></i>Publish</button>
+											<button type="submit" name="save-draft-self-choices" class="btn btn-primary me-2" value="save"><i class="icon-save me-1"></i> Save Draft</button>
+											<button type="submit" name="publish-self-choices" class="btn btn-secondary" value="publish"><i class="icon-file-text-alt me-1"></i>Publish</button>
 										</div>
 									</form>
 								</div>
 								
 								{{-- Display Needs Assessment Transaltions Section --}}
-								<h5 class="text-primary mt-2">Need Assessment Chooses</h5>
+								<h5 class="text-primary mt-2">Needs Assessment Choices</h5>
 							   <div class="bg-light p-4 border">
 								@if(isset($needsAssessmentSurvey['choices']))
 									<form id="needs-assesment-choices" class="mt-0" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
-										<div class="d-flex justify-content-end mb-2">
-											<button type="submit" name="save-draft-needs-choices" class="btn btn-primary me-2"><i class="icon-save me-1"></i>Save Draft</button>
-											<button type="submit" name="publish-needs-choices" class="btn btn-secondary"><i class="icon-file-text-alt me-1"></i>Publish</button>
+											
+										<div class="row align-items-center pb-3">
+											<div class="form-group col-md-3">
+												<label for="needs-survey-version"><b>Version</b></label>
+												<select class="form-control" id="needs-survey-version" name="needsAssessmentVersion">
+													@for($versionLoop=1;$versionLoop<= $needsAssessmentSurvey['version'];$versionLoop++)
+														<option value="{{$versionLoop}}" {{($versionLoop == $needsAssessmentSurvey['version']) ? "selected" : ""}} >{{$versionLoop}}</option>
+													@endfor
+												</select>
+											</div>
+											<div class="form-group col-md-9">
+												<div class="d-flex justify-content-end mb-2">
+													<button type="submit" name="save-draft-needs-choices" class="btn btn-primary me-2 save-draft-needs-choices" value="save"><i class="icon-save me-1"></i>Save Draft</button>
+													<button type="submit" name="publish-needs-choices" class="btn btn-secondary publish-needs-choices" value="publish"><i class="icon-file-text-alt me-1"></i>Publish</button>
+												</div>
+											</div>
 										</div>
 										@csrf
 										<div class="accordion " id="selfAssessmentSectionAccordions">
@@ -170,8 +183,8 @@
 											</div>
 										</div>
 										<div class="d-flex justify-content-end mb-2 mt-3">
-											<button type="submit" name="save-draft-needs-choices" class="btn btn-primary me-2"><i class="icon-save me-1"></i>Save Draft</button>
-											<button type="submit" name="publish-needs-choices" class="btn btn-secondary"><i class="icon-file-text-alt me-1"></i>Publish</button>
+											<button type="submit" name="save-draft-needs-choices" class="btn btn-primary me-2 save-draft-needs-choices" value="save"><i class="icon-save me-1"></i>Save Draft</button>
+											<button type="submit" name="publish-needs-choices" class="btn btn-secondary publish-needs-choices" value="publish"><i class="icon-file-text-alt me-1"></i>Publish</button>
 										</div>
 									</form>
 								@endif
