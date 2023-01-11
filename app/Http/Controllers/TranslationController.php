@@ -145,7 +145,7 @@ class TranslationController extends Controller
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully."); 
         }
     }
 }
