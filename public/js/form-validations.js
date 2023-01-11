@@ -4,7 +4,7 @@ jQuery(document).ready(function($) {
     $("button[name='save-draft-self-choices']").on("click", function(){
         $(this).closest("form").validate().destroy();
         $(document).find("input[name^='selfQuestionChoices']").each(function(i,e){
-            $(e).removeClass('is-invalid').closest('.col-md-9').find(".invalid-feedback").remove();
+            $(e).removeClass('is-invalid').parent('div').find(".invalid-feedback").remove();
         });
         $(this).closest("form").submit();
     });
@@ -19,11 +19,11 @@ jQuery(document).ready(function($) {
                         if($(e).hasClass("is-invalid")){
                             // nothing to do
                         }else{
-                            $(e).addClass('is-invalid').closest('.col-md-9').append("<span id='"+$(e).attr("name")+"-error' class='error invalid-feedback'>This field is required.</span>");
+                            $(e).addClass('is-invalid').parent('div').append("<span id='"+$(e).attr("name")+"-error' class='error invalid-feedback'>This field is required.</span>");
                         }
                         isValid = false;
                     }else{
-                        $(e).removeClass('is-invalid').closest('.col-md-9').find(".invalid-feedback").remove();
+                        $(e).removeClass('is-invalid').parent('div').find(".invalid-feedback").remove();
                     }
                 });
     
@@ -38,16 +38,16 @@ jQuery(document).ready(function($) {
     })
 
 
-    $(".save-draft-needs-choices").on("click", function(){        
+    $("button[name='save-draft-needs-choices']").on("click", function(){        
         console.log("Draft Mode!");
         $(this).closest("form").validate().destroy();
         $(document).find("input[name^='needsChoiceTitle']").each(function(i,e){
-            $(e).removeClass('is-invalid').closest('.col-md-9').find(".invalid-feedback").remove();
+            $(e).removeClass('is-invalid').parent('div').find(".invalid-feedback").remove();
         });
         $(this).closest("form").submit();
     });
     // validate Needs Assessment Survey Choices before Publish
-    $(".publish-needs-choices").on("click", function(){
+    $("button[name='publish-needs-choices']").on("click", function(){
         console.log("Publish Mode!");
         $(this).closest("form").validate({
             errorElement: 'span',
@@ -55,7 +55,7 @@ jQuery(document).ready(function($) {
             onkeyup: false, 
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
-                element.closest('.col-md-9').append(error);
+                element.parent('div').append(error);
             },
             highlight: function (element, errorClass, validClass) {
                 $(element).addClass('is-invalid');
@@ -72,11 +72,11 @@ jQuery(document).ready(function($) {
                         if($(e).hasClass("is-invalid")){
                             // nothing to do
                         }else{
-                            $(e).addClass('is-invalid').closest('.col-md-9').append("<span id='"+$(e).attr("name")+"-error' class='error invalid-feedback'>This field is required.</span>");
+                            $(e).addClass('is-invalid').parent('div').append("<span id='"+$(e).attr("name")+"-error' class='error invalid-feedback'>This field is required.</span>");
                         }
                         isValid = false;
                     }else{
-                        $(e).removeClass('is-invalid').closest('.col-md-9').find(".invalid-feedback").remove();
+                        $(e).removeClass('is-invalid').parent('div').find(".invalid-feedback").remove();
                     }
                 });
 
