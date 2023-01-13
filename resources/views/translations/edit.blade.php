@@ -37,10 +37,10 @@
                         </div>
                         
                         <div class="card-body">
-						   <h5 class="text-primary mt-2">Self Assessment Choices</h5>
-							 @if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
+							@if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
+								<h5 class="text-primary mt-2">{{ $selfAssessmentSurvey['title'] }}</h5>
 								<div class="bg-light p-4 border mb-4">
-									<form id="" class="mt-0" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+									<form id="" class="mt-0" method="POST" action="{{ route('translations.save', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType]) }}">
 										<div class="row align-items-center pb-3">
 											<div class="form-group col-md-3">
 												<label for="self-survey-version"><b>Version</b></label>
@@ -122,12 +122,13 @@
 										</div>
 									</form>
 								</div>
-								
-								{{-- Display Needs Assessment Transaltions Section --}}
+							@endif	
+
+							{{-- Display Needs Assessment Transaltions Section --}}
+							@if(isset($needsAssessmentSurvey['choices']))
 								<h5 class="text-primary mt-2">Needs Assessment Choices</h5>
-							   <div class="bg-light p-4 border">
-								@if(isset($needsAssessmentSurvey['choices']))
-									<form id="needs-assesment-choices" class="mt-0" method="POST" action="{{ route('translations.save', ['editionId' => $editionId, 'lang' => $lang]) }}">
+								<div class="bg-light p-4 border">
+									<form id="needs-assesment-choices" class="mt-0" method="POST" action="{{ route('translations.save', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType]) }}">
 											
 										<div class="row align-items-center pb-3">
 											<div class="form-group col-md-3">
@@ -187,10 +188,9 @@
 											<button type="submit" name="publish-needs-choices" class="btn btn-success publish-needs-choices" value="publish"><i class="icon-file-text-alt me-1"></i>Publish</button>
 										</div>
 									</form>
-								@endif
 								</div>
-								
-                            @endif
+							@endif
+                            
                         </div>
                     </div>
                 </div>

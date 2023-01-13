@@ -24,13 +24,39 @@ class TranslationController extends Controller
 
     protected function index(){
         $data['response'] =  (new AssessmentEditions())->_getAssessmentEditions();
-        $data['languages'] = se_languages();
+        // $data['languages'] = se_languages();
         // dd($data);
         return view('translations.index', $data );
     }
+    
+    protected function EditionSurveys($editionId = ''){
+        $data['edition'] =  (new AssessmentEditions())->_getAssessmentEditions(['id' => $editionId]);
+        $data['selfAssessmentSurveys'] =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(['editionId' => $editionId]);
+        $data['needsAssessmentSurveys'] =  (new NeedsAssessmentSurveys())->_getNeedsAssessmentSurveys(['editionId' => $editionId]);
+        $data['languages'] = se_languages();
+        // dd($data);
+        return view('translations.surveys', $data );
+    }
 
-    protected function edit($editionId, $lang){
-        $selfAssessmentSurveys =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(['editionId' => $editionId, "query_string" => ["limit" => 1, "sort" => ["version" => "DESC"]] ]);
+    protected function view($surveyId, $surveyType){
+        if($surveyType == "self"){
+            $data['selfAssessmentSurvey'] =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(["id" => $surveyId ]);
+            $data['editionId'] = $data['selfAssessmentSurvey']['editionId'];
+        }else if($surveyType == "needs"){
+            $data['needsAssessmentSurvey'] =  (new NeedsAssessmentSurveys())->_getNeedsAssessmentSurveys(["id" => $surveyId ]);
+            $data['editionId'] = $data['needsAssessmentSurvey']['editionId'];
+        }
+
+        $data['surveyType'] = $surveyType;
+        $data['surveyId'] = $surveyId;
+        $data['languages'] = se_languages();
+        // pr($data); die;
+        return view('translations.view', $data);
+    }
+
+
+    protected function edit($surveyId, $lang, $surveyType){
+        /*$selfAssessmentSurveys =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(['editionId' => $editionId, "query_string" => ["limit" => 1, "sort" => ["version" => "DESC"]] ]);
         if(isset($selfAssessmentSurveys['data']) && !empty($selfAssessmentSurveys['data'])){
             foreach($selfAssessmentSurveys['data'] as $selfSurvey){
                 if(empty($selfSurvey['versionLocked'])){
@@ -63,9 +89,16 @@ class TranslationController extends Controller
                 }
             }
         }
+        */
 
-        $data['editionId'] = $editionId;
+        if($surveyType == "self"){
+            $data['selfAssessmentSurvey'] =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(["id" => $surveyId ]);
+        }else if($surveyType == "needs"){
+            $data['needsAssessmentSurvey'] =  (new NeedsAssessmentSurveys())->_getNeedsAssessmentSurveys(["id" => $surveyId ]);
+        }
+        $data['surveyId'] = $surveyId;
         $data['lang'] = $lang;
+        $data['surveyType'] = $surveyType;
 
         $data['languages'] = se_languages();
         // pr($data); die;
@@ -76,7 +109,7 @@ class TranslationController extends Controller
      * Store/Update Transaltion Details
      * 
      */
-    protected function store(Request $request, $editionId, $lang){
+    protected function store(Request $request, $surveyId, $lang, $surveyType){
         
         if($request->input('save-draft-self-choices')){
             $errors = [];
@@ -92,7 +125,7 @@ class TranslationController extends Controller
             }
 
             if(!empty($errors)){
-                return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $errors);
+                return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->withInput()->with('error', $errors);
             }
         }
         // Update Needs Assessment Choices Translations
@@ -114,11 +147,11 @@ class TranslationController extends Controller
                     // pr($choiceArray); die;
                     $response = (new NeedsAssessmentChoices())->_updateNeedsAssessmentChoice($choiceArray);
                     if(isset($response['message'])){
-                        return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
+                        return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->withInput()->with('error', $response['message']);
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Needs Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+            return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('message', "Needs Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
         }
 
         // pr($request->input('selfQuestionChoices')); die;
@@ -140,12 +173,12 @@ class TranslationController extends Controller
                         $response = (new SelfAssessmentChoices())->_updateSelfAssessmentChoice($choiceArray);
                         // pr($response); die;
                         if(isset($response['message'])){
-                            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->withInput()->with('error', $response['message']);
+                            return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->withInput()->with('error', $response['message']);
                         }
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['editionId' => $editionId, 'lang' => $lang] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+            return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
         }
     }
 }

@@ -14,14 +14,16 @@ Class AssessmentEditions{
     /**
      * 
      */
-    public function _getAssessmentEditions($id = ''){
+    public function _getAssessmentEditions($data = []){
         $errors = [];     
 
         $request_body = $this->defaultParameters();
 
-        if(!empty($id)){
-            $request_body['query_string'] = $id;
+        if(isset($data['id']) && !empty($data['id'])){
+            $request_body['query_string'] = $data['id'];
+            unset($data['id']);
         }
+        $request_body = array_merge($request_body, $data);
         return $this->ScoringEngine->_getRequest($request_body, false);
         
     }

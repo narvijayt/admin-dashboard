@@ -23,10 +23,10 @@
                 <div class="col-md-2 bg-dark px-0 sidebar-fix">
                     @include('layouts.includes.sidebar')
                 </div>
-                <div class="col-md-10 px-0 content-right vh-100">
+                <div class="col-md-10 px-0 content-right">
                     @include('layouts.includes.header')
 
-					<div class="content-wrapper pb-5" >
+					<div class="content-wrapper vh-100 pb-5" >
 						@yield('content')
 					</div>
 					

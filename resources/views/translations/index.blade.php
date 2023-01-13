@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="content-wrapper vh-100" >
+<div class="content-wrapper-inner" >
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -52,10 +52,13 @@
                                         <tr>
                                             <td>{{ $edition['title'] }}</td>
                                             <td>{{ $edition['description'] }}</td>
-                                            <td >
-                                                @foreach($languages as $langKey=>$langLabel)
-                                                    <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="icon-pencil me-1"></i> {{$langLabel}} </a>
-                                                @endforeach
+                                            <td>
+                                                {{--
+                                                    @foreach($languages as $langKey=>$langLabel)
+                                                        <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="icon-pencil me-1"></i> {{$langLabel}} </a>
+                                                    @endforeach
+                                                --}}
+                                                <a href="{{ route('translations.surveys', ['editionId' => $edition['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Manage </a>
                                             </td>
                                         </tr>
                                         @endforeach
