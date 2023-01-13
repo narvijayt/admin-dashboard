@@ -56,7 +56,7 @@
                                             <td>{{ $user['accountType'] }}</td>
                                             <td>{{ date("m/d/Y", strtotime($user['createdAt']) ) }}</td>
                                             <td>
-                                                <a href="{{ route('users.edit', ['userId' => $user['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Edit </a>
+                                                <a href="{{ route('users.edit', ['userId' => $user['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit </a>
                                             </td>
                                         </tr>
                                         @endforeach

@@ -8,13 +8,8 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-        @include('layouts.includes.head')
-        
-        <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }}>
-        <link rel="stylesheet" href={{ asset('css/dashboard-styles.css') }}>
-        
+        @include('layouts.includes.head')        
     </head>
     <body class="sidebar-mini layout-fixed">
         <div class="wrapper">

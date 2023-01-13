@@ -31,11 +31,29 @@ class TranslationController extends Controller
     
     protected function EditionSurveys($editionId = ''){
         $data['edition'] =  (new AssessmentEditions())->_getAssessmentEditions(['id' => $editionId]);
-        $data['selfAssessmentSurveys'] =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(['editionId' => $editionId]);
+        $data['selfAssessmentSurveys'] =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(['editionId' => $editionId, "query_string" => ["sort" => ["version" => "DESC"]] ]);
         $data['needsAssessmentSurveys'] =  (new NeedsAssessmentSurveys())->_getNeedsAssessmentSurveys(['editionId' => $editionId]);
         $data['languages'] = se_languages();
         // dd($data);
         return view('translations.surveys', $data );
+    }
+    
+    protected function DuplicateSurvey($editionId = '', $surveyId = '', $surveyType = ''){
+        if(empty($surveyId) || empty($surveyType)){
+            if(!empty($editionId)){
+                return redirect()->route('translations.surveys', ['editionId' => $editionId])->with("error", "Invalid Request.");
+            }else{
+                return redirect()->route('translations')->with("error", "Invalid Request.");
+            }
+        }
+        
+        if($surveyType == "self"){
+            $selfAssessmentSurvey =  (new SelfAssessmentSurveys())->_createSelfAssessmentSurveys(["parentSurveyId" => $surveyId ]);
+        }else if($surveyType == "needs"){
+            $needsAssessmentSurvey =  (new NeedsAssessmentSurveys())->_createNeedsAssessmentSurveys(["parentSurveyId" => $surveyId ]);
+        }
+        
+        return redirect()->route('translations.surveys', ['editionId' => $editionId])->with('message', "New ".ucfirst($surveyType).' Assessment Survey has been created successfully.');
     }
 
     protected function view($surveyId, $surveyType){

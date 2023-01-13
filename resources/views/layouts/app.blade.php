@@ -4,17 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
-        <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }}>
-        <link rel="stylesheet" href={{ asset('css/styles.css') }}>
-	
+        <title>{{ config('app.name', 'Laravel') }}</title>        
         
-        @include('layouts.includes.head')
+        @include('layouts.includes.apphead')
     </head>
     <body>
 		<div class="bg-dark vh-100">
@@ -28,7 +20,6 @@
 				</div>
 			</div>
 		</div>
-
-        @include('layouts.includes.scripts')
+        
     </body>
 </html>

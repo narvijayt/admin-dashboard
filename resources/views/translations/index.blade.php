@@ -55,10 +55,10 @@
                                             <td>
                                                 {{--
                                                     @foreach($languages as $langKey=>$langLabel)
-                                                        <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="icon-pencil me-1"></i> {{$langLabel}} </a>
+                                                        <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{$langLabel}} </a>
                                                     @endforeach
                                                 --}}
-                                                <a href="{{ route('translations.surveys', ['editionId' => $edition['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Manage </a>
+                                                <a href="{{ route('translations.surveys', ['editionId' => $edition['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="fa-sharp fa-solid fa-list-check"></i> Manage </a>
                                             </td>
                                         </tr>
                                         @endforeach

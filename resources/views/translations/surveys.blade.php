@@ -52,23 +52,29 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($selfAssessmentSurveys['data'] as $survey)
+                                                    @php $isDraftMode = false; @endphp
+                                                    @foreach(array_reverse($selfAssessmentSurveys['data']) as $survey)
                                                     <tr>
                                                         <td>{{ $edition['title'] }}</td>
                                                         <td>{{ $survey['title'] }}</td>
                                                         <td>{{ $survey['version'] }}</td>
                                                         <td>
                                                             
-                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-eye-open me-1"></i> View </a>    
+                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-eye"></i> View </a>    
 
                                                             @if($survey['versionLocked'] != 1)
+                                                                @php $isDraftMode = true; @endphp
                                                                 @foreach($languages as $langKey=>$langLabel)
-                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'self' ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Edit {{ $langLabel }} </a>
+                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit {{ $langLabel }} </a>
                                                                 @endforeach
 
                                                                 @if(session()->get('accountType') == "ADMIN")
-                                                                    <a href="javascript:;" class=" btn-sm btn btn-success"> <i class="icon-save me-1"></i> Publish </a>
+                                                                    <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
                                                                 @endif
+                                                            @endif
+
+                                                            @if($survey['versionLocked'] == 1 && $isDraftMode == false)
+                                                                <a href="javascript:;" data-href="{{ route('translations.duplicate', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
                                                             @endif
                                                             
                                                         </td>
@@ -105,23 +111,28 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($needsAssessmentSurveys['data'] as $survey)
+                                                    @php $isDraftMode = false; @endphp
+                                                    @foreach(array_reverse($needsAssessmentSurveys['data']) as $survey)
                                                     <tr>
                                                         <td>{{ $edition['title'] }}</td>
                                                         <td>{{ $survey['title'] }}</td>
                                                         <td>{{ $survey['version'] }}</td>
                                                         <td>
-                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-eye-open me-1"></i> View </a>    
+                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-eye"></i> View </a>
                                                             
                                                             @if($survey['versionLocked'] != 1)
-                                                                @php $hasDraftSurvey = true; @endphp
+                                                                @php $isDraftMode = true; @endphp
                                                                 @foreach($languages as $langKey=>$langLabel)
-                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'needs' ]) }}" class=" btn-sm btn btn-primary"> <i class="icon-pencil me-1"></i> Edit {{ $langLabel }} </a>
+                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit {{ $langLabel }} </a>
                                                                 @endforeach
                                                                 
                                                                 @if(session()->get('accountType') == "ADMIN")
-                                                                    <a href="javascript:;" class=" btn-sm btn btn-success"> <i class="icon-save me-1"></i> Publish </a>
+                                                                    <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
                                                                 @endif
+                                                            @endif
+
+                                                            @if($survey['versionLocked'] == 1 && $isDraftMode == false)
+                                                                <a href="javascript:;" data-href="{{ route('translations.duplicate', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
                                                             @endif
                                                             
                                                         </td>
