@@ -129,7 +129,7 @@
                                                                 @if(session()->get('accountType') == "ADMIN")
                                                                     <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
                                                                 @endif
-                                                            @endif
+                                                            @endif 
 
                                                             @if($survey['versionLocked'] == 1 && $isDraftMode == false)
                                                                 <a href="javascript:;" data-href="{{ route('translations.duplicate', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
