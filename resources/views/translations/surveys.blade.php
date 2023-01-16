@@ -159,5 +159,5 @@
         </div>
     </section>
     <!-- /.content -->
-  </div>
+</div>
 @endsection
