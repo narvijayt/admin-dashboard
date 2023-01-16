@@ -68,7 +68,7 @@
                                                                     <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit {{ $langLabel }} </a>
                                                                 @endforeach
 
-                                                                @if(session()->get('accountType') == "ADMIN")
+                                                                @if(session()->get('user')['accountType'] == "ADMIN")
                                                                     <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
                                                                 @endif
                                                             @endif
@@ -126,7 +126,7 @@
                                                                     <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit {{ $langLabel }} </a>
                                                                 @endforeach
                                                                 
-                                                                @if(session()->get('accountType') == "ADMIN")
+                                                                @if(session()->get('user')['accountType'] == "ADMIN")
                                                                     <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
                                                                 @endif
                                                             @endif 
