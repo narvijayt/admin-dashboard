@@ -88,7 +88,6 @@ jQuery(document).ready(function($) {
 
 
     // Validate User Create Form
-    /*
     $(".create-user-form").validate({
         errorElement: 'span',
         errorClass: 'error',
@@ -153,5 +152,5 @@ jQuery(document).ready(function($) {
             $(element).removeClass('is-invalid');
         }
     });
-    */
+    
 });
