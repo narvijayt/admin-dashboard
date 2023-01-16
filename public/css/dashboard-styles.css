@@ -24,7 +24,7 @@ body{padding:0px; margin:0px; font-family:"Catamaran-Light"; background-color: #
 html{height:100%;}
 h1,h2,h3,h4,h5,h6{ font-family:"Santral-Bold"; }
 h1{font-size: 2rem;}
-
+body .sidebar-fix{z-index: 999999;}
 [class*=sidebar-dark] .brand-link{color: rgba(255,255,255,.8); border-bottom: 1px solid #4b545c;}
 .brand-link{display: block;font-size: 1.25rem;line-height: 1.5;padding: 0.8125rem 0.5rem;transition: width .3s ease-in-out;white-space: nowrap;}
 .sidebar-dark{box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;}
@@ -42,7 +42,6 @@ body .content-right {margin-left: 16.7%;position: relative;}
 .accordion-button:not(.collapsed){color: #fff;background-color:#212529 !important;}
 .accordion-button:not(.collapsed)::after{filter: brightness(0) invert(1) !important;}
 select.form-control { -webkit-appearance: menulist; }
-body .sidebar-fix{    z-index: 999999;}
 .fixed-bottom-footer{position: absolute;right: 0; bottom: 0; left: 0; z-index: 1030;}
 .logout-menu{margin-left: auto;}
 .logout-menu .dropdown-menu[data-bs-popper]{left: -98px;}
@@ -50,7 +49,8 @@ body .sidebar-fix{    z-index: 999999;}
 .logout-menu i{color: #ddd;}
 .dropdown img{width: 37px;margin: 0px 3px;}
 .dropdown-toggle {text-decoration: none;}
-.sticky-bottom{position: absolute;bottom: 0px;right: 0px;left: 0px;}
+
+.content-wrapper{min-height: 100vh;}
 @media (min-width: 768px){
     .navbar-white{background-color: #fff;color: #1f2d3d;}
     .main-header{border-bottom: 1px solid #dee2e6;z-index: 1034;}
