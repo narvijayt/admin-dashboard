@@ -105,8 +105,10 @@ class TranslationController extends Controller
 
         if($surveyType == "self"){
             $data['selfAssessmentSurvey'] =  (new SelfAssessmentSurveys())->_getSelfAssessmentSurveys(["id" => $surveyId ]);
+            $data['editionId'] = $data['selfAssessmentSurvey']['editionId'];
         }else if($surveyType == "needs"){
             $data['needsAssessmentSurvey'] =  (new NeedsAssessmentSurveys())->_getNeedsAssessmentSurveys(["id" => $surveyId ]);
+            $data['editionId'] = $data['needsAssessmentSurvey']['editionId'];
         }
         $data['surveyId'] = $surveyId;
         $data['lang'] = $lang;

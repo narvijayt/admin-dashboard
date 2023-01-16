@@ -11,8 +11,9 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right  mb-0 justify-content-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item">Translations </li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('translations') }}">Translations</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('translations.surveys', ['editionId' => $editionId]) }}">Edition Surveys</a></li>
                         <li class="breadcrumb-item active">Edit </li>
                     </ol>
                 </div><!-- /.col -->
@@ -33,21 +34,21 @@
                     <div class="card card-white rounded-0">
                         
                         <div class="card-header bg-white py-3">
-                            <h5 class="mb-0">Edit Assessment Translations</h5>
+                            <h5 class="mb-0">Edit {{ ucfirst($surveyType) }} Assessment Translations</h5>
                         </div>
                         
                         <div class="card-body">
 							@if(isset($selfAssessmentSurvey['sections']) && !empty($selfAssessmentSurvey['sections']))
-								<h5 class="text-primary mt-2">{{ $selfAssessmentSurvey['title'] }}</h5>
-								<div class="bg-light p-4 border mb-4">
+								<!-- <h5 class="text-primary mt-2">{{ $selfAssessmentSurvey['title'] }}</h5> -->
+								<div class="full-row">
 									<form id="" class="mt-0" method="POST" action="{{ route('translations.save', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType]) }}">
 										<div class="row align-items-center pb-3">
 											<div class="form-group col-md-3">
 												<label for="self-survey-version"><b>Version</b></label>
 												<select class="form-control" id="self-survey-version" name="selfAssessmentVersion">
-												@for($versionLoop=1;$versionLoop<= $selfAssessmentSurvey['version'];$versionLoop++)
-													<option value="{{$versionLoop}}" {{($versionLoop == $selfAssessmentSurvey['version']) ? "selected" : ""}} >{{$versionLoop}}</option>
-												@endfor
+													@for($versionLoop=1;$versionLoop<= $selfAssessmentSurvey['version'];$versionLoop++)
+														<option value="{{$versionLoop}}" {{($versionLoop == $selfAssessmentSurvey['version']) ? "selected" : ""}} >{{$versionLoop}}</option>
+													@endfor
 												</select>
 											</div>
 											<div class="form-group col-md-9">
@@ -60,14 +61,14 @@
 										@csrf
 										<div class="accordion" id="selfAssessmentSectionAccordions">
 											@php $questionsIndex = 1; @endphp
-											@foreach($selfAssessmentSurvey['sections'] as $section)
+											@foreach($selfAssessmentSurvey['sections'] as $sectionIndex=>$section)
 												<div class="accordion-item">
 													<h2 class="accordion-header" id="flush-sectionheading_{{$section['id']}}">
-														<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$section['id']}}">
+														<button class="accordion-button {{ $sectionIndex == 0 ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$section['id']}}" aria-expanded="{{ $sectionIndex == 0 ? 'true' : 'false' }}" aria-controls="flush-collapseSection{{$section['id']}}">
 															{{ $section['title'] }}
 														</button>
 													</h2>
-													<div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
+													<div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse {{ $sectionIndex == 0 ? 'show' : '' }}" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
 														<div class="accordion-body px-5">
 															<div class="row bg-light bg-light mb-2 p-2 border">
 																<div class="col-md-5"><h5 class="mb-0">English</h5></div>
@@ -126,8 +127,8 @@
 
 							{{-- Display Needs Assessment Transaltions Section --}}
 							@if(isset($needsAssessmentSurvey['choices']))
-								<h5 class="text-primary mt-2">Needs Assessment Choices</h5>
-								<div class="bg-light p-4 border">
+								<!-- <h5 class="text-primary mt-2">Needs Assessment Choices</h5> -->
+								<div class="full-row">
 									<form id="needs-assesment-choices" class="mt-0" method="POST" action="{{ route('translations.save', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType]) }}">
 											
 										<div class="row align-items-center pb-3">
@@ -150,11 +151,11 @@
 										<div class="accordion " id="selfAssessmentSectionAccordions">
 											<div class="accordion-item">
 												<h2 class="accordion-header" id="flush-sectionheading_{{$needsAssessmentSurvey['id']}}">
-													<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="false" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
+													<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSection{{$needsAssessmentSurvey['id']}}" aria-expanded="true" aria-controls="flush-collapseSection{{$needsAssessmentSurvey['id']}}">
 														{{ $needsAssessmentSurvey['title'] }}
 													</button>
 												</h2>
-												<div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
+												<div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse show" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
 													<div class="accordion-body px-5">
 														<div class="row bg-light mb-2 p-2 border">
 															<div class="col-md-5"><h5>English</h5></div>

@@ -51,6 +51,7 @@ select.form-control { -webkit-appearance: menulist; }
 .dropdown-toggle {text-decoration: none;}
 
 .content-wrapper{min-height: 100vh;}
+.accordion-button{ background-color: #f4f6f9;}
 @media (min-width: 768px){
     .navbar-white{background-color: #fff;color: #1f2d3d;}
     .main-header{border-bottom: 1px solid #dee2e6;z-index: 1034;}
