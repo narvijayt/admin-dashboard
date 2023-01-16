@@ -64,13 +64,13 @@
                         <div class="row form-group mb-3">
                             <div class="col-md-5"><label for="password">Password</label></div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="password" id="password" value="{{ old('password') }}" />
+                                <input type="password" class="form-control" name="password" id="password" value="" />
                             </div>
                         </div>
                         <div class="row form-group mb-3">
                             <div class="col-md-5"><label for="password_confirmation">Confirm Password</label></div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation') }}" />
+                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="" />
                             </div>
                         </div>
                         <div class="row form-group mb-3 pt-3 border-top">
