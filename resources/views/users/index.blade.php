@@ -31,49 +31,56 @@
                     <div class="card card-white rounded-0  ">
                         
                         <div class="card-header bg-white py-3 ">
-                            <h5 class="mb-0">Manage Users</h5>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h5 class="mb-0">Manage Users</h5>
+                                </div>
+                                <div class="col-md-5 text-end">
+                                    <a href="{{ route('users.create') }}" class="btn btn-primary"> <i class="fa-solid fa-plus"></i> Create new User</a>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="card-body">
-						@if(isset($response['data']) && !empty($response['data']))
+						    @if(isset($response['data']) && !empty($response['data']))
 								<div class="row">
-							<div class="col-sm-12">
-                                <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Account Type</th>
-                                            <th>Registered</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($response['data'] as $user)
-                                        <tr>
-                                            <td>{{ $user['firstName'].' '.$user['lastName'] }}</td>
-                                            <td>{{ $user['email'] }}</td>
-                                            <td>{{ $user['accountType'] }}</td>
-                                            <td>{{ date("m/d/Y", strtotime($user['createdAt']) ) }}</td>
-                                            <td>
-                                                <a href="{{ route('users.edit', ['userId' => $user['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Account Type</th>
-                                            <th>Registered</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+							        <div class="col-sm-12">
+                                        <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Account Type</th>
+                                                    <th>Registered</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($response['data'] as $user)
+                                                <tr>
+                                                    <td>{{ $user['firstName'].' '.$user['lastName'] }}</td>
+                                                    <td>{{ $user['email'] }}</td>
+                                                    <td>{{ $user['accountType'] }}</td>
+                                                    <td>{{ date("m/d/Y", strtotime($user['createdAt']) ) }}</td>
+                                                    <td>
+                                                        <!-- <a href="{{ route('users.edit', ['userId' => $user['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit </a> -->
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Account Type</th>
+                                                    <th>Registered</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
                             @endif
-						  </div>
-						  </div>
                        </div>
                     </div>
                 </div>

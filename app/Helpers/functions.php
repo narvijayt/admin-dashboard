@@ -29,7 +29,7 @@ if (!function_exists('getControllerName')) {
  */
 if (!function_exists('getUsersAccountTypes')) {
     function getUsersAccountTypes() {
-        return ['ADMIN','TRANSLATORS'];
+        return ['ADMIN','STAFF'];
     }
 }
 

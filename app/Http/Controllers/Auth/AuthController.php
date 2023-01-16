@@ -52,10 +52,16 @@ class AuthController extends Controller
 
         if( isset($responseBody['accessToken']) ){
             $request->session()->put('access_token', $responseBody['accessToken'] );
-            $request->session()->put('accountType', $responseBody['user']['accountType'] );
+            $request->session()->put('user', $responseBody['user'] );
             return redirect()->route('dashboard')->with('message', "Welcome to Dashboard!");
         }else{
             return redirect()->route('login')->withInput()->with('error', $responseBody['message']);
         }
+    }
+
+    protected function logout(Request $request){
+        $request->session()->forget('access_token');
+        $request->session()->forget('user');
+        return redirect()->route('login')->with('message', 'Logged Out Successfully.');
     }
 }

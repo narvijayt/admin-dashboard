@@ -11,15 +11,9 @@ use App\Resources\NeedsAssessmentChoices;
 
 class TranslationController extends Controller
 {
-    //
-    protected $AssessmentEditions;
-    protected $SelfAssessmentSurveys;
-    protected $NeedsAssessmentSurveys;
-
+    
     public function __construct(){
-        $this->AssessmentEditions = new AssessmentEditions();
-        $this->SelfAssessmentSurveys = new SelfAssessmentSurveys();
-        $this->NeedsAssessmentSurveys = new NeedsAssessmentSurveys();
+        
     }
 
     protected function index(){

@@ -20,7 +20,7 @@
 }
 
 
-body{padding:0px; margin:0px; font-family:"Catamaran-Light";}
+body{padding:0px; margin:0px; font-family:"Catamaran-Light"; background-color: #f4f6f9;}
 h1,h2,h3,h4,h5,h6{ font-family:"Santral-Bold"; }
 h1{font-size: 2rem;}
 

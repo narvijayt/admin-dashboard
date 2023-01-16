@@ -16,7 +16,8 @@ class IsAdminUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session()->get('accountType') == "ADMIN") {
+        $user = session()->get('user');
+        if ($user && $user['accountType'] == "ADMIN") {
             return $next($request);
         }
     }

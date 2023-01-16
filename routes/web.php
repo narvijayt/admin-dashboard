@@ -30,7 +30,10 @@ Route::middleware(['hasAccessToken'])->group(function () {
 
     // Only Accessible to Admin Users
     Route::middleware(['admin'])->group(function () {
+        // Users Routes
         Route::get('/dashboard/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users');
+        Route::get('/dashboard/users/create', [App\Http\Controllers\UsersController::class, 'create'])->name('users.create');
+        Route::post('/dashboard/users/create', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store');
         Route::get('/dashboard/users/edit/{userId}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit');
 
         Route::get('/dashboard/participants', [App\Http\Controllers\DashboardController::class, 'index'])->name('participants');
@@ -39,3 +42,4 @@ Route::middleware(['hasAccessToken'])->group(function () {
 
 Route::get('/', [App\Http\Controllers\Auth\AuthController::class, 'index'])->name('login');
 Route::post('/', [App\Http\Controllers\Auth\AuthController::class, 'doLogin'])->name('dologin');
+Route::get('logout', [App\Http\Controllers\Auth\AuthController::class,'logout'])->name('logout');
