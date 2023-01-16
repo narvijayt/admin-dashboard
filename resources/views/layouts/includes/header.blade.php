@@ -12,18 +12,14 @@
    <li class="nav-item logout-menu">
      <div class="dropdown">
        <a class="dropdown-toggle text-dark d-flex align-items-center" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">  
-		   <div class="rounded text-white bg-primary logout-dropdown">
-		    A 
-		   </div>
+		   <div class="rounded text-white bg-primary logout-dropdown">{{ ucfirst(substr(session()->get('user')['firstName'], 0, 1) ) }}</div>
 	   </a>
        <ul class="dropdown-menu shadow animated--grow-in" aria-labelledby="dropdownMenuButton1">
          <li>
-           <a class="dropdown-item" href="#">
-             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile </a>
+           <a class="dropdown-item" href="javascript:;"> <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile </a>
          </li>
          <li>
-           <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout </a>
+           <a class="dropdown-item" href="{{ route('logout') }}"> <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout </a>
          </li>
        </ul>
      </div>
