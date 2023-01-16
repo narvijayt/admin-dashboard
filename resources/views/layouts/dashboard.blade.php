@@ -12,23 +12,23 @@
         @include('layouts.includes.head')        
     </head>
     <body class="sidebar-mini layout-fixed">
-        <div class="wrapper vh-100">
-		<div class="container-fluid">
-            <div class="row">
-                <div class="col-md-2 bg-dark px-0 sidebar-fix">
-                    @include('layouts.includes.sidebar')
-                </div>
-                <div class="col-md-10 px-0 content-right pb-5">
-                    @include('layouts.includes.header')
-
-					<div class="content-wrapper pb-5 vh-100">
-						@yield('content')
+        <div class="wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-2 bg-dark px-0 sidebar-fix">
+						@include('layouts.includes.sidebar')
 					</div>
-					
-					@include('layouts.includes.footer')
-                </div>
-            </div>
-        </div>
+					<div class="col-md-10 px-0 content-right">
+						@include('layouts.includes.header')
+
+						<div class="content-wrapper pb-5">
+							@yield('content')
+						</div>
+						
+						@include('layouts.includes.footer')
+					</div>
+				</div>
+			</div>
 		</div>
 
 
