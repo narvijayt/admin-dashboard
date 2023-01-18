@@ -14,7 +14,7 @@ Class NeedsAssessmentSurveys{
     /**
      * 
      */
-    public function _getNeedsAssessmentSurveys($data = []){
+    public function _getAssessmentSurveys($data = []){
         $errors = [];     
 
         $request_body = $this->defaultParameters();
@@ -31,7 +31,7 @@ Class NeedsAssessmentSurveys{
     /**
      * 
      */
-    public function _createNeedsAssessmentSurveys($data = []){
+    public function _createAssessmentSurveys($data = []){
         $errors = [];     
 
         $request_body = $this->defaultParameters();
@@ -48,7 +48,7 @@ Class NeedsAssessmentSurveys{
     /**
      * 
      */
-    public function _updateSelfAssessmentSurveys($data = []){
+    public function _updateAssessmentSurveys($data = []){
         $errors = [];     
 
         $request_body = $this->defaultParameters();
@@ -59,6 +59,22 @@ Class NeedsAssessmentSurveys{
         }
         $request_body = array_merge($request_body, $data);
         return $this->ScoringEngine->_putRequest($request_body, false);
+    }
+
+    /**
+     * Delete HTTP Request
+     */
+    public function _deleteAssessmentSurveys($data = []){
+        $errors = [];     
+
+        $request_body = $this->defaultParameters();
+
+        if(isset($data['id']) && !empty($data['id'])){
+            $request_body['query_string'] = $data['id'];
+            unset($data['id']);
+        }
+        $request_body = array_merge($request_body, $data);
+        return $this->ScoringEngine->_deleteRequest($request_body, false);
     }
 
     public function defaultParameters(){

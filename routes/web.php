@@ -23,7 +23,9 @@ Route::middleware(['hasAccessToken'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/translations', [App\Http\Controllers\TranslationController::class, 'index'])->name('translations');
     Route::get('/dashboard/translations/surveys/{editionId}', [App\Http\Controllers\TranslationController::class, 'EditionSurveys'])->name('translations.surveys');
-    Route::get('/dashboard/translations/create-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'DuplicateSurvey'])->name('translations.duplicate');
+    Route::get('/dashboard/translations/create-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'DuplicateSurvey'])->name('translations.duplicateSurvey');
+    Route::get('/dashboard/translations/delete-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'DeleteSurvey'])->name('translations.deleteSurvey');
+    Route::get('/dashboard/translations/publish-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'PublishSurvey'])->name('translations.publishSurvey');
     Route::get('/dashboard/translations/view/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'view'])->name('translations.view');
     Route::get('/dashboard/translations/edit/{surveyId}/{lang}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'edit'])->name('translations.edit');
     Route::post('/dashboard/translations/edit/{surveyId}/{lang}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'store'])->name('translations.save');

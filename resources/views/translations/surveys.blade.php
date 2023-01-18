@@ -60,21 +60,22 @@
                                                         <td>{{ $survey['version'] }}</td>
                                                         <td>
                                                             
-                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-eye"></i> View </a>    
+                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-info"> <i class="fa-solid fa-eye"></i> View </a>    
 
                                                             @if($survey['versionLocked'] != 1)
                                                                 @php $isDraftMode = true; @endphp
                                                                 @foreach($languages as $langKey=>$langLabel)
-                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit {{ $langLabel }} </a>
+                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{ $langLabel }} </a>
                                                                 @endforeach
 
                                                                 @if(session()->get('user')['accountType'] == "ADMIN")
-                                                                    <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                                    <a href="javascript:;" data-href="{{ route('translations.publishSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-success publish-survey"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                                    <a href="javascript:;" data-href="{{ route('translations.deleteSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                                 @endif
                                                             @endif
 
                                                             @if($survey['versionLocked'] == 1 && $isDraftMode == false)
-                                                                <a href="javascript:;" data-href="{{ route('translations.duplicate', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
+                                                                <a href="javascript:;" data-href="{{ route('translations.duplicateSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
                                                             @endif
                                                             
                                                         </td>
@@ -118,21 +119,22 @@
                                                         <td>{{ $survey['title'] }}</td>
                                                         <td>{{ $survey['version'] }}</td>
                                                         <td>
-                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-eye"></i> View </a>
+                                                            <a href="{{ route('translations.view', ['surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-info"> <i class="fa-solid fa-eye"></i> View </a>
                                                             
                                                             @if($survey['versionLocked'] != 1)
                                                                 @php $isDraftMode = true; @endphp
                                                                 @foreach($languages as $langKey=>$langLabel)
-                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> Edit {{ $langLabel }} </a>
+                                                                    <a href="{{ route('translations.edit', ['surveyId' => $survey['id'], 'lang' => $langKey, 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{ $langLabel }} </a>
                                                                 @endforeach
                                                                 
                                                                 @if(session()->get('user')['accountType'] == "ADMIN")
-                                                                    <a href="javascript:;" class="btn-sm btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                                    <a href="javascript:;" data-href="{{ route('translations.publishSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-success publish-survey"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                                    <a href="javascript:;" data-href="{{ route('translations.deleteSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                                 @endif
                                                             @endif 
 
                                                             @if($survey['versionLocked'] == 1 && $isDraftMode == false)
-                                                                <a href="javascript:;" data-href="{{ route('translations.duplicate', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
+                                                                <a href="javascript:;" data-href="{{ route('translations.duplicateSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
                                                             @endif
                                                             
                                                         </td>

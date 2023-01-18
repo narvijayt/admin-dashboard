@@ -212,7 +212,26 @@ class ScoringEngine{
      * @return $response | success or false
      */
     public function _deleteRequest($args, $debug = false){
+		// Set Headers
+		$this->_addHeaders();
 
+        // Set Endpoint URL
+        $this->_setServiceEndpointURL($args);
+		
+        // Add Request Body
+        $this->_addRequestBody($args);
+
+        $response = Http::withHeaders($this->headers)->accept('application/json')->delete($this->endpoint_url, $this->request_body);
+		if($debug == true){
+			pr($args);
+			echo $this->endpoint_url.'<br/>';
+			pr($this->headers);
+			pr($this->request_body);
+			pr($response->json());
+			pr($response->headers());
+			die;
+		}
+        return $response->json();
     }
 
 
