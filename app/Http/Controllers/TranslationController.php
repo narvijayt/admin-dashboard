@@ -199,7 +199,7 @@ class TranslationController extends Controller
             $editionSurvey =  new NeedsAssessmentSurveys();
         }
 
-        $response =  $editionSurvey->_updateAssessmentSurveys(["id" => $surveyId, 'versionLocked' => 1, 'publishedAt' => date("Y-m-d H:i:s") ]);
+        $response =  $editionSurvey->_updateAssessmentSurveys(["id" => $surveyId, 'versionLocked' => 1, 'publishedAt' => date("c") ]);
         if(isset($response['message'])){
             return redirect()->route('translations.surveys', ['editionId' => $editionId])->with('error', $response['message']);
         }else{

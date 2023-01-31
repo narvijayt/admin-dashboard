@@ -34,6 +34,20 @@ if (!function_exists('getUsersAccountTypes')) {
 }
 
 /**
+ * Temperament Types
+ */
+if (!function_exists('scoringEngineTemperaments')) {
+    function scoringEngineTemperaments() {
+        return [
+            'CHOLERIC' => 'D',
+            'SANGUINE' => 'I',
+            'PHLEGMATIC' => 'S',
+            'MELANCHOLY' => 'C',
+        ];
+    }
+}
+
+/**
  * Get current controller name
  */
 if (!function_exists('pr')) {

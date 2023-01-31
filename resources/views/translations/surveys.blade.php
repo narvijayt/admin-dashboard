@@ -7,13 +7,13 @@
         <div class="container-fluid">
             <div class="row mb-2 align-items-center py-3">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Edition Surveys</h1>
+                    <h1 class="m-0">{{ $edition['title'] }}</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right mb-0 justify-content-end">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('translations') }}">Translations</a></li>
-                        <li class="breadcrumb-item active">Edition Surveys </li>
+                        <li class="breadcrumb-item active">{{ $edition['title'] }} </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -31,7 +31,7 @@
                 <div class="col-md-12">
                     <div class="card card-white rounded-0">
                         <div class="card-header bg-white py-3 ">
-                            <h5 class="mb-0">Assessment Edition Surveys</h5>
+                            <h5 class="mb-0">{{ $edition['title'] }} Surveys</h5>
                         </div>
 
                         <div class="card-body">

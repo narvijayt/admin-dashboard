@@ -26,6 +26,7 @@
 
     @include('layouts.includes.notices')
 
+	@php $scoringEngineTemperaments = scoringEngineTemperaments(); @endphp
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">		
@@ -71,8 +72,9 @@
 													<div id="flush-collapseSection{{$section['id']}}" class="accordion-collapse collapse {{ $sectionIndex == 0 ? 'show' : '' }}" aria-labelledby="flush-sectionheading_{{$section['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
 														<div class="accordion-body px-5">
 															<div class="row bg-light bg-light mb-2 p-2 border">
-																<div class="col-md-5"><h5 class="mb-0">English</h5></div>
-																<div class="col-md-7"><h5  class="mb-0">{{ $languages[$lang]}} Translation</h5></div>
+																<div class="col-md-3"><h5 class="mb-0">Temperament Type</h5></div>
+																<div class="col-md-3"><h5 class="mb-0">English</h5></div>
+																<div class="col-md-6"><h5  class="mb-0">{{ $languages[$lang]}} Translation</h5></div>
 															</div>
 
 															@php $questionsOldDetails = []; @endphp
@@ -92,16 +94,18 @@
 																	@php  $selfChoicesTranslations = !empty($choice['translations']) ? $choice['translations'] : []; @endphp
 																	<input type="hidden" name="selfQuestionChoices[{{$question['id']}}][choice_id][]" value="{{ $choice['id'] }}" />
 																	<div class="row border px-3 py-3">
-																		<div class="col-md-5"><h6>{{ $choice['title'] }}</h6></div>
-																		<div class="col-md-7">
+																		<div class="col-md-3"><h6>{{ ucfirst(strtolower($choice['temperament']))." (".$scoringEngineTemperaments[$choice['temperament']].")" }}</h6></div>
+																		<div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
+																		<div class="col-md-6">
 																			<input type="text" class="form-control mb-2" name="selfQuestionChoices[{{$question['id']}}][choiceTitle][]" value="{{  (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']])) ? $questionsOldDetails[$question['id']]['choiceTitle'][$selfChoiceIndex]  : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang]) ) ? $selfChoicesTranslations[$lang]['title'] : '') }}" />
 																		</div>
 
-																		<div class="col-md-5">
+																		<div class="col-md-3">&nbsp;</div>
+																		<div class="col-md-3">
 																			<strong>Description: </strong> 
 																			<p class="mb-0">{{ $choice['description'] }}</p>
 																		</div>
-																		<div class="col-md-7">
+																		<div class="col-md-6">
 																			<input type="text" class="form-control" name="selfQuestionChoices[{{$question['id']}}][choiceDescription][]" value="{{ (!empty($questionsOldDetails) && isset($questionsOldDetails[$question['id']]) ) ? $questionsOldDetails[$question['id']]['choiceDescription'][$selfChoiceIndex] : ( (!empty($selfChoicesTranslations) && isset($selfChoicesTranslations[$lang])) ? $selfChoicesTranslations[$lang]['description'] : '') }}" />
 																		</div>
 																		<input type="hidden" name="selfQuestionChoices[{{$question['id']}}][translations][]" value="{{ json_encode($selfChoicesTranslations) }}" />
@@ -158,8 +162,9 @@
 												<div id="flush-collapseSection{{$needsAssessmentSurvey['id']}}" class="accordion-collapse collapse show" aria-labelledby="flush-sectionheading_{{$needsAssessmentSurvey['id']}}" data-bs-parent="#selfAssessmentSectionAccordions">
 													<div class="accordion-body px-5">
 														<div class="row bg-light mb-2 p-2 border">
-															<div class="col-md-5"><h5>English</h5></div>
-															<div class="col-md-7"><h5>{{ $languages[$lang]}} Translation</h5></div>
+															<div class="col-md-3"><h5 class="mb-0">Temperament Type</h5></div>
+															<div class="col-md-3"><h5>English</h5></div>
+															<div class="col-md-6"><h5>{{ $languages[$lang]}} Translation</h5></div>
 														</div>
 														@php $needsOldDetails = []; @endphp
 
@@ -172,8 +177,9 @@
 															$needsChoicesTranslations = !empty($choice['translations']) ? $choice['translations'] : [];
 															@endphp
 															<div class="row border py-3">
-																<div class="col-md-5"><h6>{{ $choice['title'] }}</h6></div>
-																<div class="col-md-7">
+																<div class="col-md-3"><h6>{{ ucfirst(strtolower($choice['temperament']))." (".$scoringEngineTemperaments[$choice['temperament']].")" }}</h6></div>
+																<div class="col-md-3"><h6>{{ $choice['title'] }}</h6></div>
+																<div class="col-md-6">
 																	<input type="text" class="form-control" name="needsChoiceTitle[]" value="{{ (!empty($needsOldDetails)) ? $needsOldDetails[$choiceIndex]  : ( (!empty($needsChoicesTranslations) && isset($needsChoicesTranslations[$lang]) ) ? $needsChoicesTranslations[$lang]['title'] : '') }}" required />
 																</div>
 																<input type="hidden" name="needsTranslations[]" value="{{ json_encode($needsChoicesTranslations) }}" />
