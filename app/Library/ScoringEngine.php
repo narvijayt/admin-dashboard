@@ -233,6 +233,36 @@ class ScoringEngine{
 		}
         return $response->json();
     }
+    
+	/**
+     * HTTP Batch API Request
+     * 
+     * @since 1.0
+     * 
+     * @param $args = Array or Object
+     *        $debug = bool | default is false      
+     * 
+     * @return $response | success or false
+     */
+    public function _batchRequest($args, $debug = false){
+		// Set Headers
+		$this->_addHeaders();
+
+        // Set Endpoint URL
+        $this->_setServiceEndpointURL($args);
+		
+        $response = Http::withHeaders($this->headers)->accept('application/json')->post($this->endpoint_url, $args);
+		if($debug == true){
+			
+			echo "URl ". $this->endpoint_url.'<br/>';
+			pr($this->headers);
+			// pr($args);
+			echo 'Response: '; pr($response->json());
+			pr($response->headers());
+			die;
+		}
+        return $response->json();
+    }
 
 
     /**

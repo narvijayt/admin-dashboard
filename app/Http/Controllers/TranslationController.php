@@ -8,6 +8,7 @@ use App\Resources\SelfAssessmentSurveys;
 use App\Resources\SelfAssessmentChoices;
 use App\Resources\NeedsAssessmentSurveys;
 use App\Resources\NeedsAssessmentChoices;
+use App\Resources\Batch;
 
 class TranslationController extends Controller
 {
@@ -117,26 +118,47 @@ class TranslationController extends Controller
         $languages = se_languages();
         // pr($request->all()); die;
 
-        if($request->input('needsChoicesId')){            
+        if($request->input('needsChoicesId')){
+            $batchObject = [];
             foreach($request->input('needsChoicesId') as $choiceIndex=>$choiceId){
                 if(!empty($request->input('needsChoiceTitle')[$choiceIndex])){
-                    $choiceArray = [
-                        'id'    =>  $choiceId, 
-                        'translations'  =>  (array) json_decode($request->input('needsTranslations')[$choiceIndex])
-                    ];
-                    
-                    $choiceArray['translations'][$lang]    =   [
+
+                    $translations = (array) json_decode($request->input('needsTranslations')[$choiceIndex]);
+                    $translations[$lang] = [
                         "title" => $request->input('needsChoiceTitle')[$choiceIndex],
-                        // "description" => $request->input('needsTranslations')[$choiceIndex],
                     ];
-                    // pr($choiceArray); die;
-                    $response = (new NeedsAssessmentChoices())->_updateNeedsAssessmentChoice($choiceArray);
-                    if(isset($response['message'])){
-                        return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->withInput()->with('error', $response['message']);
+
+                    $batchObject[] = [
+                        'method'    =>  'update',
+                        'route'    =>  'needsAssessmentChoicess',
+                        'id'    =>  $choiceId,
+                        'query'    =>  [
+                            'translations'  =>  $translations
+                        ],
+                    ];
+                }
+            }
+
+            $updateCounter = $errorCounter = '';
+            if(!empty($batchObject)){
+                $data['calls'] = $batchObject;
+                $response = (new Batch())->_batchRequest($data);
+                if(!empty($response)){
+                    foreach($response as $row){
+                        if($row['status'] == "fulfilled"){
+                            $updateCounter++;
+                        }else if($row['status'] == "rejected"){
+                            $errorCounter++;
+                            $responseData['errors'][] = $row['reason']['message'];
+                        }
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('message', "Needs Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+            if(!empty($errorCounter)){
+                return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('error', $responseData['errors']);
+            }else{
+                return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('message', "Needs Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+            }
         }
 
         // pr($request->input('selfQuestionChoices')); die;
@@ -145,25 +167,46 @@ class TranslationController extends Controller
             foreach($request->input('selfQuestionChoices') as $questionId => $choiceDetails){
                 foreach($choiceDetails['choice_id'] as $choiceIndex=>$choiceId){
                     if(!empty($choiceDetails['choiceTitle'][$choiceIndex]) && !empty($choiceDetails['choiceDescription'][$choiceIndex])){
-                        $choiceArray = [
-                            'id'    =>  $choiceId, 
-                            'translations'  =>  (array) json_decode($choiceDetails['translations'][$choiceIndex])
-                        ];
                         
-                        $choiceArray['translations'][$lang]    =  [
+                        $translations = (array) json_decode($choiceDetails['translations'][$choiceIndex]);
+                        $translations[$lang] = [
                             "title" => $choiceDetails['choiceTitle'][$choiceIndex],
                             "description" => $choiceDetails['choiceDescription'][$choiceIndex],
                         ];
-                        
-                        $response = (new SelfAssessmentChoices())->_updateSelfAssessmentChoice($choiceArray);
-                        // pr($response); die;
-                        if(isset($response['message'])){
-                            return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->withInput()->with('error', $response['message']);
+
+                        $batchObject[] = [
+                            'method'    =>  'update',
+                            'route'    =>  'selfAssessmentChoices',
+                            'id'    =>  $choiceId,
+                            'query'    =>  [
+                                'translations'  =>  $translations
+                            ],
+                        ];
+                    }
+                }
+            }
+
+            $updateCounter = $errorCounter = '';
+            if(!empty($batchObject)){
+                $data['calls'] = $batchObject;
+                $response = (new Batch())->_batchRequest($data);
+                if(!empty($response)){
+                    foreach($response as $row){
+                        if($row['status'] == "fulfilled"){
+                            $updateCounter++;
+                        }else if($row['status'] == "rejected"){
+                            $errorCounter++;
+                            $responseData['errors'][] = $row['reason']['message'];
                         }
                     }
                 }
             }
-            return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+
+            if(!empty($errorCounter)){
+                return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('error', $responseData['errors']);
+            }else{
+                return redirect()->route('translations.edit', ['surveyId' => $surveyId, 'lang' => $lang, 'surveyType' => $surveyType] )->with('message', "Self Assessment Choices Translations has been updated to ".$languages[$lang]. " language successfully.");
+            }
         }
     }
 
