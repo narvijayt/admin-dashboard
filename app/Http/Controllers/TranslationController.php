@@ -130,7 +130,7 @@ class TranslationController extends Controller
 
                     $batchObject[] = [
                         'method'    =>  'update',
-                        'route'    =>  'needsAssessmentChoicess',
+                        'route'    =>  'needsAssessmentChoices',
                         'id'    =>  $choiceId,
                         'query'    =>  [
                             'translations'  =>  $translations
