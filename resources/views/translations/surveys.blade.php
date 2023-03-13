@@ -67,7 +67,7 @@
                                                         @endforeach
 
                                                         @if(session()->get('user')['accountType'] == "ADMIN")
-                                                            <a href="javascript:;" data-href="{{ route('translations.publishSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-success publish-survey"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                            {{--<a href="javascript:;" data-href="{{ route('translations.publishSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-success publish-survey"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>--}}
                                                             <a href="javascript:;" data-href="{{ route('translations.deleteSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'self' ]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                         @endif
                                                     @endif
@@ -134,7 +134,7 @@
                                                         @endforeach
                                                         
                                                         @if(session()->get('user')['accountType'] == "ADMIN")
-                                                            <a href="javascript:;" data-href="{{ route('translations.publishSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-success publish-survey"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                            {{--<a href="javascript:;" data-href="{{ route('translations.publishSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-success publish-survey"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>--}}
                                                             <a href="javascript:;" data-href="{{ route('translations.deleteSurvey', ['editionId' => $edition['id'], 'surveyId' => $survey['id'], 'surveyType' => 'needs' ]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                         @endif
                                                     @endif 
@@ -204,7 +204,9 @@
                                                             @endforeach
                                                             
                                                             @if(session()->get('user')['accountType'] == "ADMIN")
-                                                                <a href="javascript:;" data-href="{{ route('translations.grader.publish', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-success publish-grader"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                                {{--
+                                                                    <a href="javascript:;" data-href="{{ route('translations.grader.publish', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-success publish-grader"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
+                                                                --}}
                                                                 <a href="javascript:;" data-href="{{ route('translations.grader.delete', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                             @endif
                                                         @endif 
