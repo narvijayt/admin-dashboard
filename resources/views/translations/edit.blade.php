@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right  mb-0 justify-content-end">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('translations') }}">Translations</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('translations.index') }}">Translations</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('translations.surveys', ['editionId' => $editionId]) }}">Edition Surveys</a></li>
                         <li class="breadcrumb-item active">Edit </li>
                     </ol>

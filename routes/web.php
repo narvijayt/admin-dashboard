@@ -18,30 +18,57 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::middleware(['hasAccessToken'])->group(function () {
-    Route::get('/dashboard/blank', [App\Http\Controllers\DashboardController::class, 'blank'])->name('blank');
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/translations', [App\Http\Controllers\TranslationController::class, 'index'])->name('translations');
-    Route::get('/dashboard/translations/surveys/{editionId}', [App\Http\Controllers\TranslationController::class, 'EditionSurveys'])->name('translations.surveys');
-    Route::get('/dashboard/translations/create-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'DuplicateSurvey'])->name('translations.duplicateSurvey');
-    Route::get('/dashboard/translations/delete-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'DeleteSurvey'])->name('translations.deleteSurvey');
-    Route::get('/dashboard/translations/publish-survey/{editionId}/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'PublishSurvey'])->name('translations.publishSurvey');
-    Route::get('/dashboard/translations/view/{surveyId}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'view'])->name('translations.view');
-    Route::get('/dashboard/translations/edit/{surveyId}/{lang}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'edit'])->name('translations.edit');
-    Route::post('/dashboard/translations/edit/{surveyId}/{lang}/{surveyType}', [App\Http\Controllers\TranslationController::class, 'store'])->name('translations.save');
+Route::group(['prefix' => 'dashboard', 'middleware' => 'hasAccessToken'], function () {
+
+    // Manage Dashboard based URL Routes
+    Route::group(['controller' => App\Http\Controllers\DashboardController::class], function () {
+        Route::get('/blank', 'blank')->name('blank');
+        Route::get('', 'index')->name('dashboard');
+    });
+
+    // Manage Translation rleated URL Routes
+    Route::group(['prefix' => 'translations', 'controller' => App\Http\Controllers\TranslationController::class, 'as' => 'translations.'], function () {
+        Route::get('', 'index')->name('index');
+        Route::get('/surveys/{editionId}', 'EditionSurveys')->name('surveys');
+
+        // Self and Needs Assessment Translations Routes
+        Route::get('/create-survey/{editionId}/{surveyId}/{surveyType}', 'DuplicateSurvey')->name('duplicateSurvey');
+        Route::get('/delete-survey/{editionId}/{surveyId}/{surveyType}', 'DeleteSurvey')->name('deleteSurvey');
+        Route::get('/publish-survey/{editionId}/{surveyId}/{surveyType}', 'PublishSurvey')->name('publishSurvey');
+        Route::get('/view/{surveyId}/{surveyType}', 'view')->name('view');
+        Route::get('/edit/{surveyId}/{lang}/{surveyType}', 'edit')->name('edit');
+        Route::post('/edit/{surveyId}/{lang}/{surveyType}', 'store')->name('save');
+
+
+        // Graders Translation Routes
+        Route::group(['prefix' => 'graders', 'as' => 'grader.'], function () {
+            Route::get('/duplicate/{graderId}', 'graderDuplicate')->name('duplicate');
+            Route::get('/publish/{graderId}', 'graderPublish')->name('publish');
+            Route::get('/delete/{graderId}', 'graderDelete')->name('delete');
+            Route::get('/view/{graderId}', 'graderView')->name('view');
+            Route::get('/edit/{graderId}/{lang}', 'graderEdit')->name('edit');
+            Route::post('/edit/{graderId}/{lang}', 'graderStore')->name('save');
+        });
+    });
 
     // Only Accessible to Admin Users
     Route::middleware(['admin'])->group(function () {
         // Users Routes
-        Route::get('/dashboard/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users');
-        Route::get('/dashboard/users/create', [App\Http\Controllers\UsersController::class, 'create'])->name('users.create');
-        Route::post('/dashboard/users/create', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store');
-        Route::get('/dashboard/users/edit/{userId}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit');
+        Route::group(['prefix' => 'users', 'controller' => App\Http\Controllers\UsersController::class, 'as' => 'users.'], function () {
+            Route::get('', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/create', 'store')->name('store');
+            Route::get('/edit/{userId}', 'edit')->name('edit');
+        });
 
-        Route::get('/dashboard/participants', [App\Http\Controllers\DashboardController::class, 'index'])->name('participants');
+        // Participants Routes
+        Route::group(['prefix' => 'participants', 'as' => 'participants.'], function () {
+            Route::get('', [App\Http\Controllers\DashboardController::class, 'index'])->name('index');
+        });
     });
 });
 
+// Guest Routes
 Route::get('/', [App\Http\Controllers\Auth\AuthController::class, 'index'])->name('login');
 Route::post('/', [App\Http\Controllers\Auth\AuthController::class, 'doLogin'])->name('dologin');
 Route::get('logout', [App\Http\Controllers\Auth\AuthController::class,'logout'])->name('logout');

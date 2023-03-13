@@ -49,7 +49,7 @@ class UsersController extends Controller
         if(isset($userResponse['message'])){
             return redirect()->route('users.create')->withInput()->with('error', $userResponse['message']);
         }else{
-            return redirect()->route('users')->with('message', 'User has been created successfully.');
+            return redirect()->route('users.index')->with('message', 'User has been created successfully.');
         }
     }
     

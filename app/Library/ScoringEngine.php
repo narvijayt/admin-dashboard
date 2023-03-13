@@ -121,9 +121,9 @@ class ScoringEngine{
         $response = Http::withHeaders($this->headers)->accept('application/json')->get($this->endpoint_url, $this->request_body);
 		if($debug == true){
 			pr($args);
-			echo $this->endpoint_url.'<br/>';
 			pr($this->headers);
 			pr($this->request_body);
+			echo $this->endpoint_url.'<br/>';
 			pr($response->json());
 			pr($response->headers());
 			die;
@@ -342,7 +342,9 @@ class ScoringEngine{
 	 */
 	private function _setAPIEndpointURL() {
 
-		$endpoint_url = $this->api_url;
+		$hostname = env("APP_ENV", "staging");
+
+		$endpoint_url = ($hostname == "production") ? "http://mt-scoring.us-east-1.elasticbeanstalk.com" : $this->api_url;
 
 		// $endpoint_url = (empty($this->port)) ? $endpoint_url : $endpoint_url.':'.$this->port;
 

@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right mb-0 justify-content-end">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('users') }}">Users</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Users</a></li>
                         <li class="breadcrumb-item active">Create New User</li>
                     </ol>
                 </div><!-- /.col -->
@@ -76,7 +76,7 @@
                         <div class="row form-group mb-3 pt-3 border-top">
                             <div class="col-md-12 text-end">
                                 <button type="submit" class="btn btn-success"> <i class="fa-solid fa-floppy-disk"></i> Save</button>
-                                <a href="{{ route('users') }}" class="btn btn-danger"> <i class="fa-solid fa-xmark"></i> Cancel</a>
+                                <a href="{{ route('users.index') }}" class="btn btn-danger"> <i class="fa-solid fa-xmark"></i> Cancel</a>
                             </div>
                         </div>
                     </form>

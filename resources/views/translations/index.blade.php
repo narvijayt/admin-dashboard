@@ -34,48 +34,48 @@
                             <h5 class="mb-0">Assessment Editions</h5>
                         </div>
 
-                        <div class="card-body">
-						
-                            @if(isset($response['data']) && !empty($response['data']))
+                        <div class="card-body">						
+                            @if(isset($editions['data']) && !empty($editions['data']))
 								<div class="row">
-							<div class="col-sm-12">
-                                <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Title</th>
-                                            <th>Version</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($response['data'] as $edition)
-                                        <tr>
-                                            <td>{{ $edition['title'] }}</td>
-                                            <td>{{ $edition['description'] }}</td>
-                                            <td>
-                                                {{--
-                                                    @foreach($languages as $langKey=>$langLabel)
-                                                        <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{$langLabel}} </a>
-                                                    @endforeach
-                                                --}}
-                                                <a href="{{ route('translations.surveys', ['editionId' => $edition['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="fa-sharp fa-solid fa-list-check"></i> Manage </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Title</th>
-                                            <th>description</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+							        <div class="col-sm-12">
+                                        <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Version</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($editions['data'] as $edition)
+                                                <tr>
+                                                    <td>{{ $edition['title'] }}</td>
+                                                    <td>{{ $edition['description'] }}</td>
+                                                    <td>
+                                                        {{--
+                                                            @foreach($languages as $langKey=>$langLabel)
+                                                                <a href="{{ route('translations.edit', ['editionId' => $edition['id'], 'lang' => $langKey ]) }}" class=" btn-sm  btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{$langLabel}} </a>
+                                                            @endforeach
+                                                        --}}
+                                                        <a href="{{ route('translations.surveys', ['editionId' => $edition['id'] ]) }}" class=" btn-sm btn btn-primary"> <i class="fa-sharp fa-solid fa-list-check"></i> Manage </a>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>description</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
                             @endif
                         </div>
-					 </div>
-					 </div>
                     </div>
+
                 </div>
             </div>
         </div>

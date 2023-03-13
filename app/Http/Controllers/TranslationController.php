@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Resources\AssessmentEditions;
+use App\Resources\AssessmentGraders;
+use App\Resources\AssessmentPatterns;
 use App\Resources\SelfAssessmentSurveys;
 use App\Resources\SelfAssessmentChoices;
 use App\Resources\NeedsAssessmentSurveys;
@@ -18,9 +20,11 @@ class TranslationController extends Controller
     }
 
     protected function index(){
-        $data['response'] =  (new AssessmentEditions())->_getAssessmentEditions();
+        $data['editions'] =  (new AssessmentEditions())->_getAssessmentEditions();
+        /*$data['patterns'] =  (new AssessmentPatterns())->_getAssessmentPatterns();
         // $data['languages'] = se_languages();
-        // dd($data);
+        dd($data['patterns']);*/
+
         return view('translations.index', $data );
     }
     
@@ -28,8 +32,17 @@ class TranslationController extends Controller
         $data['edition'] =  (new AssessmentEditions())->_getAssessmentEditions(['id' => $editionId]);
         $data['selfAssessmentSurveys'] =  (new SelfAssessmentSurveys())->_getAssessmentSurveys(['editionId' => $editionId, "query_string" => ["sort" => ["version" => "DESC"]] ]);
         $data['needsAssessmentSurveys'] =  (new NeedsAssessmentSurveys())->_getAssessmentSurveys(['editionId' => $editionId]);
+
+        // $data['graders'] =  (new AssessmentGraders())->_getAssessmentGraders(['editionId' => $editionId]);
+        
+        /*if(isset($data['graders']['data'])){
+            foreach($data['graders']['data'] as $index=>$grader){
+                $data['graders']['data'][$index]['patterns'] = (new AssessmentPatterns())->_getAssessmentPatterns(['graderId' => $grader['id'] ]);
+            }
+        }*/
+
         $data['languages'] = se_languages();
-        // dd($data);
+        // dd($data['graders']);
         return view('translations.surveys', $data );
     }
     
@@ -38,7 +51,7 @@ class TranslationController extends Controller
             if(!empty($editionId)){
                 return redirect()->route('translations.surveys', ['editionId' => $editionId])->with("error", "Invalid Request.");
             }else{
-                return redirect()->route('translations')->with("error", "Invalid Request.");
+                return redirect()->route('translations.index')->with("error", "Invalid Request.");
             }
         }
         
@@ -247,6 +260,168 @@ class TranslationController extends Controller
             return redirect()->route('translations.surveys', ['editionId' => $editionId])->with('error', $response['message']);
         }else{
             return redirect()->route('translations.surveys', ['editionId' => $editionId])->with('message', ucfirst($surveyType)." Assessment Survey has been published successfully.");
+        }
+    }
+
+
+    // Manage Graders & Patterns Translations
+    /**
+     * View Translation Of Grader Patterns
+     * 
+     * @accept $graderId
+     * @return html|string
+     * 
+     */
+    protected function graderView($graderId){
+        
+        $data['grader'] =  (new AssessmentGraders())->_getAssessmentGraders(["id" => $graderId ]);
+        $data['patterns'] =  (new AssessmentPatterns())->_getAssessmentPatterns(["graderId" => $graderId ]);
+
+        $data['languages'] = se_languages();
+        // pr($data); die;
+        return view('translations.graders.view', $data);
+    }
+
+
+    /**
+     * Duplicate Grader
+     * 
+     * @accept $graderId
+     * @return boolean true|false
+     * 
+     */
+    protected function graderDuplicate($graderId){
+        
+        $grader =  (new AssessmentGraders())->_getAssessmentGraders(["id" => $graderId ]);
+        $response =  (new AssessmentGraders())->_createAssessmentGraders(["parentGraderId" => $graderId ]);
+        if(isset($response['message'])){
+            return redirect()->route('translations.surveys', ['editionId' => $grader['editionId']])->with('error', $response['message']);    
+        }
+        
+        return redirect()->route('translations.surveys', ['editionId' => $grader['editionId']])->with('message', "New Assessment Grader has been created successfully.");
+    }
+
+    /**
+     * Edit Grader Pattern
+     * 
+     * @accept $graderId
+     *         $lang
+     * 
+     * @return boolean true|false
+     * 
+     */
+    protected function graderEdit($graderId, $lang){
+        
+        $data['grader'] =  (new AssessmentGraders())->_getAssessmentGraders(["id" => $graderId ]);
+        $data['patterns'] =  (new AssessmentPatterns())->_getAssessmentPatterns(["graderId" => $graderId ]);
+        
+        $data['lang'] = $lang;
+        $data['languages'] = se_languages();
+        // pr($data['patterns']); die;
+        return view('translations.graders.edit', $data );
+    }
+    
+    /**
+     * Store/Update Grader Pattern Translations
+     * 
+     * @accept $graderId
+     *         $lang
+     * 
+     * @return boolean true|false
+     * 
+     */
+    protected function graderStore(Request $request, $graderId, $lang){
+        
+        // $grader =  (new AssessmentGraders())->_getAssessmentGraders(["id" => $graderId ]);
+        // $patterns =  (new AssessmentPatterns())->_getAssessmentPatterns(["graderId" => $graderId ]);
+        
+        // Update Needs Assessment Choices Translations
+        $languages = se_languages();
+        // pr($request->all()); die;
+
+        if($request->input('patternsId')){
+            $batchObject = [];
+            foreach($request->input('patternsId') as $index=>$patternId){
+                if(!empty($request->input('title')[$index])){
+
+                    $translations = (array) json_decode($request->input('patternTranslations')[$index]);
+                    $translations[$lang] = [
+                        "title" => $request->input('title')[$index],
+                    ];
+
+                    $batchObject[] = [
+                        'method'    =>  'update',
+                        'route'    =>  'selfAssessmentPatterns',
+                        'id'    =>  $patternId,
+                        'query'    =>  [
+                            'translations'  =>  $translations
+                        ],
+                    ];
+                }
+            }
+
+            // pr($batchObject); die;
+
+            $updateCounter = $errorCounter = '';
+            if(!empty($batchObject)){
+                $data['calls'] = $batchObject;
+                $response = (new Batch())->_batchRequest($data);
+                if(!empty($response)){
+                    foreach($response as $row){
+                        if($row['status'] == "fulfilled"){
+                            $updateCounter++;
+                        }else if($row['status'] == "rejected"){
+                            $errorCounter++;
+                            $responseData['errors'][] = $row['reason']['message'];
+                        }
+                    }
+                }
+            }
+            if(!empty($errorCounter)){
+                return redirect()->route('translations.grader.edit', ['graderId' => $graderId, 'lang' => $lang] )->with('error', $responseData['errors']);
+            }else{
+                return redirect()->route('translations.grader.edit', ['graderId' => $graderId, 'lang' => $lang] )->with('message', "Grader Pattern's Translations has been updated to ".$languages[$lang]. " language successfully.");
+            }
+        }
+    }
+
+    /**
+     * Publish Edition Grader with new translations
+     * 
+     * @accept $graderId
+     * 
+     * @return string success|error 
+     * 
+     */
+    protected function graderPublish($graderId){
+        
+        $grader =  (new AssessmentGraders())->_getAssessmentGraders(["id" => $graderId ]);
+
+        $response =  (new AssessmentGraders())->_updateAssessmentGraders(["id" => $graderId, 'versionLocked' => 1, 'publishedAt' => date("c") ]);
+        if(isset($response['message'])){
+            return redirect()->route('translations.surveys', ['editionId' => $grader['editionId']])->with('error', $response['message']);
+        }else{
+            return redirect()->route('translations.surveys', ['editionId' => $grader['editionId']])->with('message', "Assessment Grader Version ".$grader['version']." has been published successfully.");
+        }
+    }
+
+    /**
+     * Delete Edition Grader
+     * 
+     * @accept $graderId
+     * 
+     * @return string success|error 
+     * 
+     */
+    protected function graderDelete($graderId){
+        
+        $grader =  (new AssessmentGraders())->_getAssessmentGraders(["id" => $graderId ]);
+
+        $response =  (new AssessmentGraders())->_deleteAssessmentGraders(["id" => $graderId ]);
+        if(isset($response['message'])){
+            return redirect()->route('translations.surveys', ['editionId' => $grader['editionId']])->with('error', $response['message']);
+        }else{
+            return redirect()->route('translations.surveys', ['editionId' => $grader['editionId']])->with('message', "Assessment Grader Version ".$grader['version']." has been deleted successfully.");
         }
     }
 }
