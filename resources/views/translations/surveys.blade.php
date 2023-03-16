@@ -204,9 +204,7 @@
                                                             @endforeach
                                                             
                                                             @if(session()->get('user')['accountType'] == "ADMIN")
-                                                                {{--
-                                                                    <a href="javascript:;" data-href="{{ route('translations.grader.publish', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-success publish-grader"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
-                                                                --}}
+                                                                <a href="javascript:;" data-href="{{ route('translations.grader.publish', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-success publish-grader"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
                                                                 <a href="javascript:;" data-href="{{ route('translations.grader.delete', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                             @endif
                                                         @endif 
