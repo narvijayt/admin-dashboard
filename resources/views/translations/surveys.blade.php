@@ -164,74 +164,73 @@
                     @endif
 
 
-                    {{--
-                        @if(isset($graders['data']) && !empty($graders['data']))
-                        <div class="card card-white rounded-0 mb-5">
-                            <div class="card-header bg-white py-3 ">
-                                <h5 class="mb-0">Assessment Graders</h5>
-                            </div>
+                    
+                    @if(isset($graders['data']) && !empty($graders['data']))
+                    <div class="card card-white rounded-0 mb-5">
+                        <div class="card-header bg-white py-3 ">
+                            <h5 class="mb-0">Assessment Graders</h5>
+                        </div>
 
-                            <div class="card-body">
+                        <div class="card-body">
 
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Edition</th>
-                                                    <th>Title</th>
-                                                    <th>Status</th>
-                                                    <th>Version</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php $isDraftMode = false; @endphp
-                                                @foreach(array_reverse($graders['data']) as $grader)
-                                                <tr>
-                                                    <td>{{ $edition['title'] }}</td>
-                                                    <td>{{ $grader['title'] }}</td>
-                                                    <td>{{ $grader['versionLocked']==1 ? "Published" : "Draft" }}</td>
-                                                    <td>{{ $grader['version'] }}</td>
-                                                    <td>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatable" class="table table-bordered dataTable"  width="100%" cellspacing="0" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Edition</th>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Version</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php $isDraftMode = false; @endphp
+                                            @foreach(array_reverse($graders['data']) as $grader)
+                                            <tr>
+                                                <td>{{ $edition['title'] }}</td>
+                                                <td>{{ $grader['title'] }}</td>
+                                                <td>{{ $grader['versionLocked']==1 ? "Published" : "Draft" }}</td>
+                                                <td>{{ $grader['version'] }}</td>
+                                                <td>
+                                                    
+                                                    <a href="{{ route('translations.grader.view', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-info"> <i class="fa-solid fa-eye"></i> View </a>
+                                                    
+                                                    @if($grader['versionLocked'] != 1)
+                                                        @php $isDraftMode = true; @endphp
+                                                        @foreach($languages as $langKey=>$langLabel)
+                                                            <a href="{{ route('translations.grader.edit', ['graderId' => $grader['id'], 'lang' => $langKey]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{ $langLabel }} </a>
+                                                        @endforeach
                                                         
-                                                        <a href="{{ route('translations.grader.view', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-info"> <i class="fa-solid fa-eye"></i> View </a>
-                                                        
-                                                        @if($grader['versionLocked'] != 1)
-                                                            @php $isDraftMode = true; @endphp
-                                                            @foreach($languages as $langKey=>$langLabel)
-                                                                <a href="{{ route('translations.grader.edit', ['graderId' => $grader['id'], 'lang' => $langKey]) }}" class="btn-sm btn btn-primary"> <i class="fa-solid fa-pen-to-square"></i> {{ $langLabel }} </a>
-                                                            @endforeach
-                                                            
-                                                            @if(session()->get('user')['accountType'] == "ADMIN")
-                                                                <a href="javascript:;" data-href="{{ route('translations.grader.publish', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-success publish-grader"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>
-                                                                <a href="javascript:;" data-href="{{ route('translations.grader.delete', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
-                                                            @endif
-                                                        @endif 
-
-                                                        @if($grader['versionLocked'] == 1 && $isDraftMode == false)
-                                                            <a href="javascript:;" data-href="{{ route('translations.grader.duplicate', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
+                                                        @if(session()->get('user')['accountType'] == "ADMIN")
+                                                            {{--<a href="javascript:;" data-href="{{ route('translations.grader.publish', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-success publish-grader"> <i class="fa-solid fa-floppy-disk"></i> Publish </a>--}}
+                                                            <a href="javascript:;" data-href="{{ route('translations.grader.delete', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-danger delete-survey"> <i class="fa-solid fa-trash"></i> Delete </a>
                                                         @endif
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Edition</th>
-                                                    <th>Title</th>
-                                                    <th>Status</th>
-                                                    <th>Version</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                                                    @endif 
+
+                                                    @if($grader['versionLocked'] == 1 && $isDraftMode == false)
+                                                        <a href="javascript:;" data-href="{{ route('translations.grader.duplicate', ['graderId' => $grader['id']]) }}" class="btn-sm btn btn-primary duplicate-survey"> <i class="fa-solid fa-clone"></i> Duplicate </a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Edition</th>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Version</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        @endif
-                    --}}
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

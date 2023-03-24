@@ -33,13 +33,13 @@ class TranslationController extends Controller
         $data['selfAssessmentSurveys'] =  (new SelfAssessmentSurveys())->_getAssessmentSurveys(['editionId' => $editionId, "query_string" => ["sort" => ["version" => "DESC"]] ]);
         $data['needsAssessmentSurveys'] =  (new NeedsAssessmentSurveys())->_getAssessmentSurveys(['editionId' => $editionId]);
 
-        // $data['graders'] =  (new AssessmentGraders())->_getAssessmentGraders(['editionId' => $editionId]);
+        $data['graders'] =  (new AssessmentGraders())->_getAssessmentGraders(['editionId' => $editionId]);
         
-        /*if(isset($data['graders']['data'])){
+        if(isset($data['graders']['data'])){
             foreach($data['graders']['data'] as $index=>$grader){
                 $data['graders']['data'][$index]['patterns'] = (new AssessmentPatterns())->_getAssessmentPatterns(['graderId' => $grader['id'] ]);
             }
-        }*/
+        }
 
         $data['languages'] = se_languages();
         // dd($data['graders']);
