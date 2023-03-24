@@ -9,16 +9,7 @@ use Illuminate\Support\Facades\Http;
  * 
  * @since 1.0
  */
-class ScoringEngine{
-
-    /**
-     * HTTP API URL
-     * 
-     * @access private
-	 * @var    string
-     */
-    private $api_url = "http://mt-scoring-staging.us-east-1.elasticbeanstalk.com";
-    
+class ScoringEngine{    
     
     /**
      * HTTP API URL
@@ -344,7 +335,7 @@ class ScoringEngine{
 
 		$hostname = env("APP_ENV", "staging");
 
-		$endpoint_url = ($hostname == "production") ? "http://mt-scoring.us-east-1.elasticbeanstalk.com" : $this->api_url;
+		$endpoint_url = ($hostname == "production") ? "http://mt-scoring.us-east-1.elasticbeanstalk.com" : "http://mt-scoring-staging.us-east-1.elasticbeanstalk.com";
 
 		// $endpoint_url = (empty($this->port)) ? $endpoint_url : $endpoint_url.':'.$this->port;
 
