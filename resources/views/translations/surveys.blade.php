@@ -168,7 +168,7 @@
                     @if(isset($graders['data']) && !empty($graders['data']))
                     <div class="card card-white rounded-0 mb-5">
                         <div class="card-header bg-white py-3 ">
-                            <h5 class="mb-0">Assessment Graders</h5>
+                            <h5 class="mb-0">Assessment Patterns</h5>
                         </div>
 
                         <div class="card-body">
