@@ -7,14 +7,14 @@
         <div class="container-fluid">
             <div class="row mb-2 align-items-center py-3">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ $grader['title'] }}</h1>
+                    <h1 class="m-0">Assessment Patterns</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right mb-0 justify-content-end">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('translations.index') }}">Translations</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('translations.surveys', ['editionId' => $grader['editionId'] ]) }}">Edition</a></li>
-                        <li class="breadcrumb-item active">View Graders</li>
+                        <li class="breadcrumb-item active">View Translations</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -33,7 +33,7 @@
                     <div class="card card-white rounded-0">
                         
                         <div class="card-header bg-white py-3 ">
-                            <h5 class="mb-0">{{ $grader['title'] }} Translations</h5>
+                            <h5 class="mb-0">Assessment Patterns Translations</h5>
                         </div>
 
                         <div class="card-body">
